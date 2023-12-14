@@ -1,13 +1,15 @@
 <script setup>
 import {reactive} from "vue";
+import log from "@/utils/debug";
 
 const form = reactive({
   username: '',
-  password: ''
+  password: '',
+  expectedRole: 'admin',
 })
 
 const onLogin = () => {
-  console.log('submit!')
+  log(JSON.stringify(form))
 }
 </script>
 
@@ -22,6 +24,11 @@ const onLogin = () => {
         </el-form-item>
         <el-form-item label="密码">
           <el-input v-model="form.password" show-password/>
+        </el-form-item>
+        <el-form-item label="角色">
+          <el-radio-group v-model="form.expectedRole">
+            <el-radio label="admin">管理员</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onLogin">登录</el-button>
