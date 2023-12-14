@@ -6,7 +6,7 @@ const form = reactive({
   password: ''
 })
 
-const onSubmit = () => {
+const onLogin = () => {
   console.log('submit!')
 }
 </script>
@@ -21,11 +21,10 @@ const onSubmit = () => {
           <el-input v-model="form.username"/>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="form.password"/>
+          <el-input v-model="form.password" show-password/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">Create</el-button>
-          <el-button>Cancel</el-button>
+          <el-button type="primary" @click="onLogin">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -35,5 +34,20 @@ const onSubmit = () => {
 </template>
 
 <style scoped>
+.back {
+  user-select: none;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+}
+
+.block {
+  margin: 0 auto;
+  padding: 4% 10%;
+  width: 70%;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px 2px #4d4d4875;
+}
 
 </style>
