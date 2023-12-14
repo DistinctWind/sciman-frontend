@@ -2,6 +2,7 @@
 import {reactive} from "vue";
 import log from "@/utils/debug";
 import {loginVerify} from "@/api/login/login";
+import {saveUserInfo} from "@/utils/storeage";
 
 const form = reactive({
   username: '',
@@ -13,8 +14,13 @@ const onLogin = async () => {
   const result = await loginVerify(form)
   const response = result.data
   log(response)
-  if (response.code === 1) { // login successful
-
+  if (response.code === 0) { // login successful
+    const info = {
+      id: response.data.id,
+      username: form.username,
+      role: form.expectedRole
+    }
+    saveUserInfo(info)
   }
 }
 </script>
