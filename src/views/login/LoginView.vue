@@ -1,6 +1,7 @@
 <script setup>
 import {reactive} from "vue";
 import log from "@/utils/debug";
+import {loginVerify} from "@/api/login/login";
 
 const form = reactive({
   username: '',
@@ -8,8 +9,13 @@ const form = reactive({
   expectedRole: 'admin',
 })
 
-const onLogin = () => {
-  log(JSON.stringify(form))
+const onLogin = async () => {
+  const result = await loginVerify(form)
+  const response = result.data
+  log(response)
+  if (response.code === 1) { // login successful
+
+  }
 }
 </script>
 
