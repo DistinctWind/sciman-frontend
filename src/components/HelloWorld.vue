@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h1>{{ role }}</h1>
+    <button @click="reset">reset role</button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -30,13 +32,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+<script setup>
+import {useStore} from "vuex";
+import {computed} from "vue";
+
+const msg = 'This is a message'
+const store = useStore()
+const role = computed(() => store.state.role)
+const reset = () => store.commit('setRole', 10)
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
