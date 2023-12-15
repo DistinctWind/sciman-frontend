@@ -11,13 +11,13 @@ import {
       <el-menu
           default-active="1"
       >
-        <el-menu-item index="1" @click="this.$router.push('/home')">
+        <el-menu-item index="1" @click="$router.push('/home')">
           <el-icon>
             <House/>
           </el-icon>
           <span>主页</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="this.$router.push('/laboratoryManagement')">
+        <el-menu-item index="2" @click="$router.push('/laboratoryManagement')">
           <el-icon>
             <IconMenu/>
           </el-icon>
