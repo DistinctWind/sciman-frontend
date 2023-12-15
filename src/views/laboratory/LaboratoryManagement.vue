@@ -1,10 +1,25 @@
 <script setup>
 
+import {onMounted, ref} from "vue";
+import {listAllLaboratories} from "@/api/lab/laboratory";
+import log from "@/utils/debug";
+
+const labData = ref([])
+onMounted(async () => {
+  const response = await listAllLaboratories()
+  labData.value = response.data.data
+  log(labData)
+})
+
 </script>
 
 <template>
   <div>
-    <h1>This is laboratory management</h1>
+    <el-table :data="labData" border style="width: 100%">
+      <el-table-column prop="id" label="实验室ID" width="180"/>
+      <el-table-column prop="name" label="实验室名称" width="180"/>
+      <el-table-column prop="orientation" label="实验室研究方向"/>
+    </el-table>
   </div>
 </template>
 
