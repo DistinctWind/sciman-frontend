@@ -12,8 +12,8 @@ onMounted(async () => {
 })
 
 const modifyLabDialogVisible = ref(false)
-const modifyLabForm = reactive({
-  id: 0,
+const labForm = reactive({
+  id: -1,
   name: '',
   orientation: ''
 })
@@ -21,9 +21,9 @@ const modifyLabForm = reactive({
 const modifyLab = (row) => {
   log(row)
   modifyLabDialogVisible.value = true
-  modifyLabForm.id = row.id
-  modifyLabForm.name = row.name
-  modifyLabForm.orientation = row.orientation
+  labForm.id = row.id
+  labForm.name = row.name
+  labForm.orientation = row.orientation
 }
 
 const modifyLabSubmit = () => {
@@ -45,15 +45,15 @@ const modifyLabSubmit = () => {
     </el-table>
 
     <el-dialog v-model="modifyLabDialogVisible">
-      <el-form :model="modifyLabForm" label-width="120px">
+      <el-form :model="labForm" label-width="120px">
         <el-form-item label="实验室ID">
-          <el-input disabled v-model="modifyLabForm.id"/>
+          <el-input disabled v-model="labForm.id"/>
         </el-form-item>
         <el-form-item label="实验室名称">
-          <el-input v-model="modifyLabForm.name"/>
+          <el-input v-model="labForm.name"/>
         </el-form-item>
         <el-form-item label="实验室研究方向">
-          <el-input v-model="modifyLabForm.orientation"
+          <el-input v-model="labForm.orientation"
                     :rows="7"
                     type="textarea"
                     placeholder="研究方向介绍"/>
