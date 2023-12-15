@@ -1,5 +1,5 @@
-import {createStore} from "vuex";
-// import log from "@/utils/debug";
+import {createStore, useStore} from "vuex";
+import {computed} from "vue";
 
 const store = createStore({
     state: {
@@ -24,5 +24,13 @@ const store = createStore({
         }
     }
 })
+
+export function coreInfo() {
+    const store = useStore()
+    const username = computed(()=>store.state.username)
+    const id = computed(()=>store.state.id)
+    const role = computed(()=>store.state.role)
+    return {username, id, role}
+}
 
 export default store
