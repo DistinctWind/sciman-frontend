@@ -1,6 +1,6 @@
 <script setup>
 import {reactive} from "vue";
-import log from "@/utils/debug";
+import log, {debug} from "@/utils/debug";
 import {loginVerify} from "@/api/login/login";
 import {saveUserInfo} from "@/utils/storeage";
 
@@ -23,6 +23,16 @@ const onLogin = async () => {
     saveUserInfo(info)
   }
 }
+
+const onLoginAsAdmin = () => {
+  log('Login using admin account')
+  const info = {
+    username: 'admin',
+    role: 'admin',
+    id: 2
+  }
+  saveUserInfo(info)
+}
 </script>
 
 <template>
@@ -44,6 +54,8 @@ const onLogin = async () => {
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onLogin">登录</el-button>
+          <el-button v-if="debug"
+              type="danger" @click="onLoginAsAdmin">[Debug]作为管理员登录</el-button>
         </el-form-item>
       </el-form>
     </div>

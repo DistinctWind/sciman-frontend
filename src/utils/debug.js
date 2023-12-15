@@ -1,4 +1,4 @@
-const debug = true
+export const debug = true
 
 const log = (message) => {
     if (debug) {
