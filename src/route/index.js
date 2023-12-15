@@ -4,12 +4,21 @@ import LoginView from "@/views/login/LoginView.vue";
 import UserInfoView from "@/views/login/UserInfoView.vue";
 import DebugInfo from "@/views/debug/DebugInfo.vue";
 import {useStore} from "vuex";
+import LayoutView from "@/views/LayoutView.vue";
+import HomeView from "@/views/HomeView.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
     {path: '/login', component: LoginView},
     {path: '/userinfo', component: UserInfoView},
-    {path: '/debug', component: DebugInfo}
+    {path: '/debug', component: DebugInfo},
+    {
+        path: '/layout',
+        component: LayoutView,
+        children: [
+            {path: '/home', component: HomeView}
+        ]
+    }
 ]
 
 const router = createRouter({
