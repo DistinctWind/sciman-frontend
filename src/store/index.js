@@ -1,4 +1,5 @@
 import {createStore} from "vuex";
+// import log from "@/utils/debug";
 
 const store = createStore({
     state: {
@@ -15,6 +16,11 @@ const store = createStore({
         },
         setRole(state, role) {
             state.role = role
+        },
+        setUser(state, userInfo) {
+            state.username = userInfo.username
+            state.id = userInfo.id
+            state.role = userInfo.role
         }
     }
 })
