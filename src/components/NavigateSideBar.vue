@@ -6,7 +6,7 @@ import {
 </script>
 
 <template>
-  <div class="side">
+  <div>
     <el-scrollbar style="height: 100%">
       <el-menu
           default-active="1"
