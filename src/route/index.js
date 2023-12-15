@@ -6,6 +6,7 @@ import DebugInfo from "@/views/debug/DebugInfo.vue";
 import {useStore} from "vuex";
 import LayoutView from "@/views/LayoutView.vue";
 import HomeView from "@/views/HomeView.vue";
+import LaboratoryManagement from "@/views/laboratory/LaboratoryManagement.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -16,7 +17,8 @@ const routes = [
         path: '/layout',
         component: LayoutView,
         children: [
-            {path: '/home', component: HomeView}
+            {path: '/home', component: HomeView},
+            {path: '/laboratoryManagement', component: LaboratoryManagement}
         ]
     }
 ]
