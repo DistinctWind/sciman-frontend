@@ -8,7 +8,7 @@ const labData = ref([])
 onMounted(async () => {
   const response = await listAllLaboratories()
   labData.value = response.data.data
-  log(labData)
+  log(labData.value)
 })
 
 </script>
