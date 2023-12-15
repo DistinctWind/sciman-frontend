@@ -3,7 +3,9 @@ import {reactive} from "vue";
 import log, {debug} from "@/utils/debug";
 import {loginVerify} from "@/api/login/login";
 import {saveUserInfo} from "@/utils/storeage";
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const form = reactive({
   username: '',
   password: '',
@@ -21,10 +23,11 @@ const onLogin = async () => {
       role: form.expectedRole
     }
     saveUserInfo(info)
+    await router.push('/home')
   }
 }
 
-const onLoginAsAdmin = () => {
+const onLoginAsAdmin = async () => {
   log('Login using admin account')
   const info = {
     username: 'admin',
@@ -32,6 +35,7 @@ const onLoginAsAdmin = () => {
     id: 2
   }
   saveUserInfo(info)
+  await router.push('/home')
 }
 </script>
 
