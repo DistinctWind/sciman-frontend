@@ -1,12 +1,8 @@
 <script setup>
 
-import {useStore} from "vuex";
-import {computed} from "vue";
+import {coreInfo} from "@/store";
 
-const store = useStore()
-const username = computed(() => store.state.username)
-const id = computed(() => store.state.id)
-const role = computed(() => store.state.role)
+const {username, id, role} = coreInfo()
 
 const debugInfo = [
   {username, id, role}
