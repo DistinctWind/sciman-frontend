@@ -37,8 +37,9 @@ router.beforeEach(async (to, from, next) => {
         const role = useStore().state.role
         if (role === -1) {
             next('/login')
+        } else {
+            next()
         }
-        next()
     }
 })
 
