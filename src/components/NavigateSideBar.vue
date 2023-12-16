@@ -15,7 +15,7 @@ import {
           <el-icon>
             <House/>
           </el-icon>
-          <span>主页</span>
+          <span>仪表盘</span>
         </el-menu-item>
         <el-menu-item index="2" @click="$router.push('/laboratoryManagement')">
           <el-icon>
