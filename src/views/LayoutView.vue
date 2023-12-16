@@ -7,10 +7,10 @@ import NavigateSideBar from "@/components/NavigateSideBar.vue";
 <template>
 <div>
   <el-container>
-    <el-header style="padding: 0">
+    <el-header style="padding: 0; height: 10vh">
       <HeaderComponent/>
     </el-header>
-    <el-container>
+    <el-container style="height: 90vh">
       <el-aside width="200px">
         <NavigateSideBar/>
       </el-aside>
