@@ -22,8 +22,8 @@ const modifyLab = (row) => {
   log(row)
   modifyLabDialogVisible.value = true
   labForm.id = row.id
-  labForm.name = row.name
-  labForm.orientation = row.orientation
+  labForm.name = row.laboratoryName
+  // labForm.orientation = row.orientation
 }
 
 const modifyLabSubmit = () => {
