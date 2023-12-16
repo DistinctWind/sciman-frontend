@@ -1,14 +1,14 @@
 <script setup>
 
 import {onMounted, reactive, ref} from "vue";
-import {listAllLaboratories} from "@/api/lab/laboratory";
 import log from "@/utils/debug";
+import {listAllLabIntros} from "@/api/lab/laboratory";
 
 const labData = ref([])
 onMounted(async () => {
-  const response = await listAllLaboratories()
+  const response = await listAllLabIntros()
+  log(response.data)
   labData.value = response.data.data
-  log(labData.value)
 })
 
 const modifyLabDialogVisible = ref(false)
@@ -35,8 +35,9 @@ const modifyLabSubmit = () => {
   <div>
     <el-table :data="labData" border style="width: 100%">
       <el-table-column prop="id" label="实验室ID" width="180"/>
-      <el-table-column prop="name" label="实验室名称" width="180"/>
-      <el-table-column prop="orientation" label="实验室研究方向"/>
+      <el-table-column prop="laboratoryName" label="实验室名称" width="180"/>
+      <el-table-column prop="stuffName" label="主任"/>
+      <el-table-column prop="secretaryName" label="秘书"/>
       <el-table-column label="操作">
         <template #default="scope">
           <el-button size="small" @click="modifyLab(scope.row)">编辑{{ scope.row.name }}</el-button>
