@@ -7,6 +7,7 @@ import {useStore} from "vuex";
 import LayoutView from "@/views/LayoutView.vue";
 import HomeView from "@/views/HomeView.vue";
 import LaboratoryManagement from "@/views/laboratory/LaboratoryManagement.vue";
+import ResearcherManage from "@/views/personal_management/ResearcherManage.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -18,7 +19,8 @@ const routes = [
         component: LayoutView,
         children: [
             {path: '/home', component: HomeView},
-            {path: '/laboratoryManagement', component: LaboratoryManagement}
+            {path: '/laboratoryManagement', component: LaboratoryManagement},
+            {path: '/researcherManagement', component: ResearcherManage}
         ]
     }
 ]
