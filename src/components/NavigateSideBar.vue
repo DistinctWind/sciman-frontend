@@ -1,7 +1,7 @@
 <script setup>
 import {
   House,
-  Menu as IconMenu,
+  Menu as IconMenu, Search, UserFilled,
 } from '@element-plus/icons-vue'
 </script>
 
@@ -23,6 +23,16 @@ import {
           </el-icon>
           <span>实验室管理</span>
         </el-menu-item>
+        <el-sub-menu index="3">
+          <template #title>
+            <el-icon><UserFilled /></el-icon>
+            <span>人事管理</span>
+          </template>
+          <el-menu-item index="3-1" @click="$router.push('/researcherManagement')">
+            <el-icon><Search /></el-icon>
+            <span>研究员管理</span>
+          </el-menu-item>
+        </el-sub-menu>
       </el-menu>
     </el-scrollbar>
   </div>
