@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import {listAllResearcher} from "@/api/person/researcher";
+import {listAllResearcher, listResearcher} from "@/api/person/researcher";
 import log from "@/utils/debug";
 
 const researcherData = ref([])
@@ -14,8 +14,12 @@ onMounted(async () => {
   researcherData.value = response.data.data
 })
 
-const query = () => {
+const query = async () => {
   log(queryParam.value)
+  const result = await listResearcher(queryParam.value)
+  const response = result.data
+  log(response)
+  researcherData.value = response.data
 }
 </script>
 
