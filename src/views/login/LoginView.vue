@@ -9,7 +9,6 @@ const router = useRouter()
 const form = reactive({
   username: '',
   password: '',
-  expectedRole: 'admin',
 })
 
 const onLogin = async () => {
@@ -20,7 +19,7 @@ const onLogin = async () => {
     const info = {
       id: response.data.id,
       username: form.username,
-      role: form.expectedRole
+      role: response.data.role
     }
     saveUserInfo(info)
     await router.push('/home')
@@ -50,11 +49,6 @@ const onLoginAsAdmin = async () => {
         </el-form-item>
         <el-form-item label="密码">
           <el-input v-model="form.password" show-password/>
-        </el-form-item>
-        <el-form-item label="角色">
-          <el-radio-group v-model="form.expectedRole">
-            <el-radio label="admin">管理员</el-radio>
-          </el-radio-group>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onLogin">登录</el-button>
