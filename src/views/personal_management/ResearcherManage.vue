@@ -30,7 +30,7 @@ const query = async () => {
       <el-row>
         <el-row>
           <span style="margin-right: 10px">姓名</span>
-          <el-input class="input" v-model="queryParam.nameFilter"/>
+          <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
         </el-row>
         <el-button class="query" type="primary" @click="query">查询</el-button>
       </el-row>
