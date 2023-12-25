@@ -1,12 +1,18 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {listAllResearcher, listResearcher} from "@/api/person/researcher";
 import log from "@/utils/debug";
 
 const researcherData = ref([])
 
+const currentPage = ref(1)
+const researcherCount = computed(() => researcherData.value.length)
+const pageSize = ref(10)
+
 const queryParam = ref({
   nameFilter: '',
+  limitStart: 0,
+  limitSize: 10
 })
 
 onMounted(async () => {
@@ -21,6 +27,24 @@ const query = async () => {
   log(response)
   researcherData.value = response.data
 }
+
+const handlePageChange = (page) => {
+  log(page)
+  log(`limitStart = ${(page - 1) * pageSize.value}`)
+  log(`limitSize = ${pageSize.value}`)
+  queryParam.value = {
+    ...queryParam.value,
+    limitStart: (page - 1) * pageSize.value,
+    limitSize: pageSize.value
+  }
+  query()
+}
+
+watch(currentPage, (newVal, oldVal) => {
+  log(`currentPage changed from ${oldVal} to ${newVal}`)
+  handlePageChange(newVal)
+})
+
 </script>
 
 <template>
@@ -48,7 +72,10 @@ const query = async () => {
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagination" background layout="prev, pager, next" :total="1000"/>
+        <el-pagination class="pagination" background layout="prev, pager, next"
+                       v-model:current-page="currentPage"
+                       v-model:total="researcherCount"
+                       v-model:page-size="pageSize"/>
       </el-main>
     </el-container>
   </div>
