@@ -1,23 +1,18 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
-import {listAllResearcher, listResearcher} from "@/api/person/researcher";
+import {onMounted, ref, watch} from "vue";
+import {listResearcher} from "@/api/person/researcher";
 import log from "@/utils/debug";
 
 const researcherData = ref([])
 
 const currentPage = ref(1)
-const researcherCount = computed(() => researcherData.value.length)
+const researcherCount = ref(10)
 const pageSize = ref(10)
 
 const queryParam = ref({
   nameFilter: '',
-  limitStart: 0,
-  limitSize: 10
-})
-
-onMounted(async () => {
-  const response = await listAllResearcher()
-  researcherData.value = response.data.data
+  page: 1,
+  pageSize: 10
 })
 
 const query = async () => {
@@ -25,17 +20,21 @@ const query = async () => {
   const result = await listResearcher(queryParam.value)
   const response = result.data
   log(response)
-  researcherData.value = response.data
+  researcherData.value = response.data.researchers
+  researcherCount.value = response.data.total
 }
+
+onMounted(async () => {
+  await query()
+})
 
 const handlePageChange = (page) => {
   log(page)
-  log(`limitStart = ${(page - 1) * pageSize.value}`)
-  log(`limitSize = ${pageSize.value}`)
+  log(`pageSize: ${pageSize.value}`)
   queryParam.value = {
     ...queryParam.value,
-    limitStart: (page - 1) * pageSize.value,
-    limitSize: pageSize.value
+    page: page,
+    pageSize: pageSize.value
   }
   query()
 }
