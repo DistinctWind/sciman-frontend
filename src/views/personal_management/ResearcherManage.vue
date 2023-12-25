@@ -68,7 +68,12 @@ watch(currentPage, (newVal, oldVal) => {
           <el-table-column prop="employeeId" label="工号" width="180"/>
           <el-table-column prop="laboratoryName" label="所属实验室" width="180"/>
           <el-table-column prop="name" label="姓名"/>
-          <el-table-column prop="gender" label="性别"/>
+          <el-table-column prop="gender" label="性别">
+            <template #default="scope">
+              <span v-if="scope.row.gender === 1">男</span>
+              <span v-if="scope.row.gender === 2">女</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="age" label="年龄"/>
           <el-table-column label="操作">
             <template #default="scope">
