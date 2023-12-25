@@ -11,6 +11,7 @@ const pageSize = ref(10)
 
 const queryParam = ref({
   nameFilter: '',
+  laboratoryNameFilter: '',
   page: 1,
   pageSize: 10
 })
@@ -54,6 +55,10 @@ watch(currentPage, (newVal, oldVal) => {
           <el-row>
             <span style="margin-right: 10px">姓名</span>
             <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
+          </el-row>
+          <el-row>
+            <span style="margin-right: 10px">实验室</span>
+            <el-input class="input" v-model="queryParam.laboratoryNameFilter" @keyup.enter="query"/>
           </el-row>
           <el-button class="query" type="primary" @click="query">查询</el-button>
         </el-row>
