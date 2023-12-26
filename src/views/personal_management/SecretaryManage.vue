@@ -21,6 +21,15 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+const modifyDialogVisible = ref(false)
+const modifySecretaryOf = async (secretary) => {
+  log(secretary)
+  modifyDialogVisible.value = true
+}
+const deleteSecretaryOf = async (secretary) => {
+  log(secretary)
+}
 </script>
 
 <template>
@@ -48,8 +57,8 @@ onMounted(async () => {
           <el-table-column prop="age" label="年龄"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifyResearcherOf(scope.row)">修改</el-button>
-              <el-button size="small" type="danger" @click="deleteResearcherOf(scope.row)">删除</el-button>
+              <el-button size="small" @click="modifySecretaryOf(scope.row)">修改</el-button>
+              <el-button size="small" type="danger" @click="deleteSecretaryOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -64,6 +73,9 @@ onMounted(async () => {
         />
       </el-main>
     </el-container>
+    <el-dialog v-model="modifyDialogVisible">
+
+    </el-dialog>
   </div>
 </template>
 
