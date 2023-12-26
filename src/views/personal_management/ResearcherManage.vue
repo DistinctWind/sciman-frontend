@@ -1,7 +1,8 @@
 <script setup>
-import {onMounted, ref, watch} from "vue";
-import {listResearcher} from "@/api/person/researcher";
+import {onMounted, reactive, ref, watch} from "vue";
+import {listResearcher, modifyResearcher, researcherDetail} from "@/api/person/researcher";
 import log from "@/utils/debug";
+import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 
 const researcherData = ref([])
 
@@ -46,7 +47,7 @@ watch(currentPage, (newVal, oldVal) => {
 })
 
 const modifyDialogVisible = ref(false)
-const modifyDialogData = ref({
+const modifyDialogData = reactive({
   employeeId: 0,
   laboratoryId: 0,
   name: '',
@@ -56,9 +57,28 @@ const modifyDialogData = ref({
   orientation: '',
 })
 
-const modifyResearcherOf = (researcher) => {
-  log(researcher)
+const modifyResearcherOf = async (researcher) => {
+  // log(researcher)
   modifyDialogVisible.value = true
+  const initialData = (await researcherDetail(researcher.employeeId)).data.data
+  const { employeeId, laboratoryId, name, gender, title, age, orientation } = initialData
+  log(initialData)
+
+  modifyDialogData.employeeId = employeeId
+  modifyDialogData.laboratoryId = laboratoryId
+  modifyDialogData.name = name
+  modifyDialogData.gender = String(gender)
+  modifyDialogData.title = title
+  modifyDialogData.age = age
+  modifyDialogData.orientation = orientation
+}
+
+const confirmModify = async () => {
+  log(modifyDialogData)
+  modifyDialogVisible.value = false
+  const result = await modifyResearcher(modifyDialogData)
+  const response = result.data
+  log(response)
 }
 
 </script>
@@ -109,8 +129,8 @@ const modifyResearcherOf = (researcher) => {
           <el-input v-model="modifyDialogData.employeeId" disabled/>
         </el-form-item>
         <el-form-item label="所属实验室">
+          <LaboratorySelection v-model="modifyDialogData.laboratoryId"/>
         </el-form-item>
-
         <el-form-item label="姓名">
           <el-input v-model="modifyDialogData.name"/>
         </el-form-item>
@@ -130,6 +150,14 @@ const modifyResearcherOf = (researcher) => {
           <el-input v-model="modifyDialogData.orientation"/>
         </el-form-item>
       </el-form>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="modifyDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmModify">
+          确认
+        </el-button>
+      </span>
+      </template>
     </el-dialog>
   </div>
 </template>
