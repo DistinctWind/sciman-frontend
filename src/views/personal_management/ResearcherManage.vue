@@ -80,6 +80,7 @@ const confirmModify = async () => {
   const result = await modifyResearcher(modifyDialogData)
   const response = result.data
   analysisResponse(response)
+  await query()
 }
 
 </script>
