@@ -79,7 +79,6 @@ const confirmModify = async () => {
   modifyDialogVisible.value = false
   const result = await modifyResearcher(modifyDialogData)
   const response = result.data
-  log(response)
   analysisResponse(response)
 }
 
