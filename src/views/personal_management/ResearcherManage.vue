@@ -107,7 +107,9 @@ const confirmModify = async () => {
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagination" background layout="prev, pager, next"
+        <el-pagination class="pagination" background
+                       :page-sizes="[5, 10, 20]"
+                       layout="sizes, prev, pager, next, total"
                        v-model:current-page="queryParam.page"
                        v-model:total="researcherCount"
                        v-model:page-size="queryParam.pageSize"
