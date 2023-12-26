@@ -7,3 +7,11 @@ export const listAllResearcher = () => {
 export const listResearcher = (queryParam) => {
     return request.post('/person/researcher/list', queryParam)
 }
+
+export const researcherDetail = (id) => {
+    return request.get(`/person/researcher/detail/${id}`)
+}
+
+export const modifyResearcher = (researcher) => {
+    return request.post('/person/researcher/modify', researcher)
+}
