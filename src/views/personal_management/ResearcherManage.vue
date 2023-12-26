@@ -46,6 +46,15 @@ watch(currentPage, (newVal, oldVal) => {
 })
 
 const modifyDialogVisible = ref(false)
+const modifyDialogData = ref({
+  employeeId: 0,
+  laboratoryId: 0,
+  name: '',
+  gender: 1,
+  title: '',
+  age: 0,
+  orientation: '',
+})
 
 const modifyResearcherOf = (researcher) => {
   log(researcher)
@@ -95,7 +104,32 @@ const modifyResearcherOf = (researcher) => {
       </el-main>
     </el-container>
     <el-dialog v-model="modifyDialogVisible">
+      <el-form :model="modifyDialogData" label-width="120px">
+        <el-form-item label="工号">
+          <el-input v-model="modifyDialogData.employeeId" disabled/>
+        </el-form-item>
+        <el-form-item label="所属实验室">
+        </el-form-item>
 
+        <el-form-item label="姓名">
+          <el-input v-model="modifyDialogData.name"/>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-radio-group v-model="modifyDialogData.gender">
+            <el-radio label="1">男</el-radio>
+            <el-radio label="2">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="职称">
+          <el-input v-model="modifyDialogData.title"/>
+        </el-form-item>
+        <el-form-item label="年龄">
+          <el-input v-model="modifyDialogData.age"/>
+        </el-form-item>
+        <el-form-item label="研究方向">
+          <el-input v-model="modifyDialogData.orientation"/>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
