@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {listSecretary} from "@/api/person/secretary";
+import {listSecretary, secretaryDetail} from "@/api/person/secretary";
 import log from "@/utils/debug";
 import {getToday} from "@/utils/date";
 
