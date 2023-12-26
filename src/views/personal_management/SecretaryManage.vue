@@ -2,6 +2,7 @@
 import {onMounted, reactive, ref} from "vue";
 import {listSecretary} from "@/api/person/secretary";
 import log from "@/utils/debug";
+import {getToday} from "@/utils/date";
 
 const secretaryData = ref([])
 const secretaryCount = ref(10)
@@ -28,7 +29,7 @@ const modifyDialogData = reactive({
   name: '',
   gender: 0,
   age: 0,
-  employDate: '2000-1-1',
+  employDate: getToday(),
   duty: '',
 })
 const modifySecretaryOf = async (secretary) => {
