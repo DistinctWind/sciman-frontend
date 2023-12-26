@@ -1,7 +1,7 @@
 <script setup>
 import {
   House,
-  Menu as IconMenu, Search, UserFilled,
+  Menu as IconMenu, Search, User, UserFilled,
 } from '@element-plus/icons-vue'
 </script>
 
@@ -31,6 +31,10 @@ import {
           <el-menu-item index="3-1" @click="$router.push('/researcherManagement')">
             <el-icon><Search /></el-icon>
             <span>研究员管理</span>
+          </el-menu-item>
+          <el-menu-item index="3-2" @click="$router.push('/secretaryManagement')">
+            <el-icon><User /></el-icon>
+            <span>秘书管理</span>
           </el-menu-item>
         </el-sub-menu>
       </el-menu>
