@@ -1,17 +1,13 @@
 <script setup>
-import {onMounted, reactive, ref, watch} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {deleteResearcher, listResearcher, modifyResearcher, researcherDetail} from "@/api/person/researcher";
 import log from "@/utils/debug";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 
 const researcherData = ref([])
-
-const currentPage = ref(1)
 const researcherCount = ref(10)
-const pageSize = ref(10)
-
-const queryParam = ref({
+const queryParam = reactive({
   nameFilter: '',
   laboratoryNameFilter: '',
   page: 1,
@@ -19,8 +15,8 @@ const queryParam = ref({
 })
 
 const query = async () => {
-  log(queryParam.value)
-  const result = await listResearcher(queryParam.value)
+  log(queryParam)
+  const result = await listResearcher(queryParam)
   const response = result.data
   log(response)
   researcherData.value = response.data.researchers
@@ -29,22 +25,6 @@ const query = async () => {
 
 onMounted(async () => {
   await query()
-})
-
-const handlePageChange = (page) => {
-  log(page)
-  log(`pageSize: ${pageSize.value}`)
-  queryParam.value = {
-    ...queryParam.value,
-    page: page,
-    pageSize: pageSize.value
-  }
-  query()
-}
-
-watch(currentPage, (newVal, oldVal) => {
-  log(`currentPage changed from ${oldVal} to ${newVal}`)
-  handlePageChange(newVal)
 })
 
 const modifyDialogVisible = ref(false)
@@ -62,7 +42,7 @@ const modifyResearcherOf = async (researcher) => {
   // log(researcher)
   modifyDialogVisible.value = true
   const initialData = (await researcherDetail(researcher.employeeId)).data.data
-  const { employeeId, laboratoryId, name, gender, title, age, orientation } = initialData
+  const {employeeId, laboratoryId, name, gender, title, age, orientation} = initialData
   log(initialData)
 
   modifyDialogData.employeeId = employeeId
@@ -128,9 +108,11 @@ const confirmModify = async () => {
           </el-table-column>
         </el-table>
         <el-pagination class="pagination" background layout="prev, pager, next"
-                       v-model:current-page="currentPage"
+                       v-model:current-page="queryParam.page"
                        v-model:total="researcherCount"
-                       v-model:page-size="pageSize"/>
+                       v-model:page-size="queryParam.pageSize"
+                       @size-change="query"
+                       @current-change="query"/>
       </el-main>
     </el-container>
     <el-dialog v-model="modifyDialogVisible">
