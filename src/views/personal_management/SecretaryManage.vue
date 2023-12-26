@@ -33,8 +33,14 @@ const modifyDialogData = reactive({
   duty: '',
 })
 const modifySecretaryOf = async (secretary) => {
-  log(secretary)
   modifyDialogVisible.value = true
+  const initialData = (await secretaryDetail(secretary.employeeId)).data.data
+  const updateKeys = Object.keys(initialData)
+  updateKeys.forEach(key => {
+    if (modifyDialogData[key] !== undefined){
+      modifyDialogData[key] = initialData[key]
+    }
+  })
 }
 const deleteSecretaryOf = async (secretary) => {
   log(secretary)
