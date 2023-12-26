@@ -65,5 +65,34 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.input {
+  width: 250px;
+  align-self: flex-start;
+}
 
+.query {
+  align-self: flex-end;
+}
+
+.el-header .el-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.el-table {
+  margin-bottom: 20px;
+}
+
+.el-pagination {
+  margin-top: 20px;
+}
+
+.el-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 </style>
