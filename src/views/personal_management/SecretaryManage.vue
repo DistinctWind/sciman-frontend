@@ -55,10 +55,13 @@ onMounted(async () => {
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagination" background layout="prev, pager, next"
+        <el-pagination class="pagination" background
+                       :page-sizes="[5, 10, 20]"
+                       layout="sizes, prev, pager, next, total"
                        v-model:current-page="currentPage"
                        v-model:total="secretaryCount"
-                       v-model:page-size="pageSize"/>
+                       v-model:page-size="pageSize"
+        />
       </el-main>
     </el-container>
   </div>
