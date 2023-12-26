@@ -3,6 +3,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import {listResearcher, modifyResearcher, researcherDetail} from "@/api/person/researcher";
 import log from "@/utils/debug";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const researcherData = ref([])
 
@@ -79,6 +80,7 @@ const confirmModify = async () => {
   const result = await modifyResearcher(modifyDialogData)
   const response = result.data
   log(response)
+  analysisResponse(response)
 }
 
 </script>
