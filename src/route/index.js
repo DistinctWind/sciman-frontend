@@ -8,6 +8,7 @@ import LayoutView from "@/views/LayoutView.vue";
 import HomeView from "@/views/HomeView.vue";
 import LaboratoryManagement from "@/views/laboratory/LaboratoryManagement.vue";
 import ResearcherManage from "@/views/personal_management/ResearcherManage.vue";
+import SecretaryManage from "@/views/personal_management/SecretaryManage.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -15,13 +16,14 @@ const routes = [
     {path: '/userinfo', component: UserInfoView},
     {path: '/debug', component: DebugInfo},
     {
-        path: '/layout',
-        component: LayoutView,
         children: [
             {path: '/home', component: HomeView},
             {path: '/laboratoryManagement', component: LaboratoryManagement},
-            {path: '/researcherManagement', component: ResearcherManage}
-        ]
+            {path: '/researcherManagement', component: ResearcherManage},
+            {path: '/secretaryManagement', component: SecretaryManage}
+        ],
+        component: LayoutView,
+        path: '/layout'
     }
 ]
 

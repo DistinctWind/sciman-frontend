@@ -32,6 +32,10 @@ import {
             <el-icon><Search /></el-icon>
             <span>研究员管理</span>
           </el-menu-item>
+          <el-menu-item index="3-2" @click="$router.push('/secretaryManagement')">
+            <el-icon><Search /></el-icon>
+            <span>秘书管理</span>
+          </el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-scrollbar>
