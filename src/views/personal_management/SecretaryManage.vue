@@ -1,19 +1,17 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {listSecretary} from "@/api/person/secretary";
 import log from "@/utils/debug";
 
 const secretaryData = ref([])
-const currentPage = ref(1)
 const secretaryCount = ref(10)
-const pageSize = ref(10)
-const queryParam = ref({
+const queryParam = reactive({
   nameFilter: '',
   page: 1,
   pageSize: 10
 })
 const query = async () => {
-  const result = await listSecretary(queryParam.value)
+  const result = await listSecretary(queryParam)
   const response = result.data
   log(response)
   secretaryData.value = response.data.secretaries
@@ -58,9 +56,11 @@ onMounted(async () => {
         <el-pagination class="pagination" background
                        :page-sizes="[5, 10, 20]"
                        layout="sizes, prev, pager, next, total"
-                       v-model:current-page="currentPage"
+                       v-model:current-page="queryParam.page"
                        v-model:total="secretaryCount"
-                       v-model:page-size="pageSize"
+                       v-model:page-size="queryParam.pageSize"
+                       @size-change="query"
+                       @current-change="query"
         />
       </el-main>
     </el-container>
