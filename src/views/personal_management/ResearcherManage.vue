@@ -115,7 +115,7 @@ const confirmModify = async () => {
           <el-table-column prop="age" label="年龄"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifyResearcherOf(scope.row)">详情</el-button>
+              <el-button size="small" @click="modifyResearcherOf(scope.row)">修改</el-button>
             </template>
           </el-table-column>
         </el-table>
