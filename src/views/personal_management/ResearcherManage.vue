@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
-import {listResearcher, modifyResearcher, researcherDetail} from "@/api/person/researcher";
+import {deleteResearcher, listResearcher, modifyResearcher, researcherDetail} from "@/api/person/researcher";
 import log from "@/utils/debug";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
@@ -74,6 +74,13 @@ const modifyResearcherOf = async (researcher) => {
   modifyDialogData.orientation = orientation
 }
 
+const deleteResearcherOf = async (researcher) => {
+  const result = await deleteResearcher(researcher.employeeId)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
 const confirmModify = async () => {
   log(modifyDialogData)
   modifyDialogVisible.value = false
@@ -116,6 +123,7 @@ const confirmModify = async () => {
           <el-table-column label="操作">
             <template #default="scope">
               <el-button size="small" @click="modifyResearcherOf(scope.row)">修改</el-button>
+              <el-button size="small" type="danger" @click="deleteResearcherOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
