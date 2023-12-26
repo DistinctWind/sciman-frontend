@@ -23,6 +23,14 @@ onMounted(async () => {
 })
 
 const modifyDialogVisible = ref(false)
+const modifyDialogData = reactive({
+  employeeId: 0,
+  name: '',
+  gender: 0,
+  age: 0,
+  employDate: '2000-1-1',
+  duty: '',
+})
 const modifySecretaryOf = async (secretary) => {
   log(secretary)
   modifyDialogVisible.value = true
@@ -74,7 +82,30 @@ const deleteSecretaryOf = async (secretary) => {
       </el-main>
     </el-container>
     <el-dialog v-model="modifyDialogVisible">
-
+      <el-form :model="modifyDialogData">
+        <el-form-item label="工号">
+          <el-input v-model="modifyDialogData.employeeId" disabled/>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="modifyDialogData.name"/>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-radio-group v-model="modifyDialogData.gender">
+            <el-radio label="1">男</el-radio>
+            <el-radio label="2">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="聘用时间">
+          <el-date-picker
+              v-model="modifyDialogData.employDate"
+              type="Date"
+              placeholder="Pick a day"
+          />
+        </el-form-item>
+        <el-form-item label="职务">
+          <el-input v-model="modifyDialogData.duty"/>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
