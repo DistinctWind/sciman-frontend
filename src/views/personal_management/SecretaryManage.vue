@@ -99,7 +99,7 @@ const deleteSecretaryOf = async (secretary) => {
         <el-form-item label="聘用时间">
           <el-date-picker
               v-model="modifyDialogData.employDate"
-              type="Date"
+              type="date"
               placeholder="Pick a day"
           />
         </el-form-item>
