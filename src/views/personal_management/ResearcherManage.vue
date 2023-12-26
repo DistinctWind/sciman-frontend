@@ -45,6 +45,13 @@ watch(currentPage, (newVal, oldVal) => {
   handlePageChange(newVal)
 })
 
+const modifyDialogVisible = ref(false)
+
+const modifyResearcherOf = (researcher) => {
+  log(researcher)
+  modifyDialogVisible.value = true
+}
+
 </script>
 
 <template>
@@ -77,7 +84,7 @@ watch(currentPage, (newVal, oldVal) => {
           <el-table-column prop="age" label="年龄"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="scope.row">详情</el-button>
+              <el-button size="small" @click="modifyResearcherOf(scope.row)">详情</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -87,6 +94,9 @@ watch(currentPage, (newVal, oldVal) => {
                        v-model:page-size="pageSize"/>
       </el-main>
     </el-container>
+    <el-dialog v-model="modifyDialogVisible">
+
+    </el-dialog>
   </div>
 </template>
 
