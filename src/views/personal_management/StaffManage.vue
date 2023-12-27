@@ -46,6 +46,7 @@ const modifyStaffOf = async (staff) => {
 }
 
 const confirm = async () => {
+  log(`dialogData = ${JSON.stringify(dialogData)}`)
   const result = await modifyStaff(dialogData)
   const response = result.data
   analysisResponse(response)
@@ -112,6 +113,8 @@ const confirm = async () => {
             v-model="dialogData.dueDate"
             type="date"
             placeholder="Pick a day"
+            value-format="YYYY-MM-DD"
+            format="YYYY-MM-DD"
         />
       </el-form-item>
     </el-form>
