@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
-import {getVenueDetail, listVenue} from "@/api/venue/venue";
+import {deleteVenue, getVenueDetail, listVenue} from "@/api/venue/venue";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -44,6 +45,13 @@ const modifyVenueOf = async (venue) => {
     dialogData[key] = initialData[key]
   })
 }
+
+const deleteVenueOf = async (venue) => {
+  const result = await deleteVenue(venue.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
 </script>
 
 <template>
@@ -74,7 +82,7 @@ const modifyVenueOf = async (venue) => {
           <el-table-column label="操作">
             <template #default="scope">
               <el-button size="small" @click="modifyVenueOf(scope.row)">修改</el-button>
-              <el-button size="small" type="danger" @click="deleteResearcherOf(scope.row)">删除</el-button>
+              <el-button size="small" type="danger" @click="deleteVenueOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
