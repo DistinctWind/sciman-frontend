@@ -7,6 +7,7 @@ const tableData = ref([])
 const tableTotal = ref(10)
 const queryParam = reactive({
   laboratoryNameFilter: '',
+  addressFilter: '',
   page: 1,
   pageSize: 10
 })
@@ -33,6 +34,10 @@ onMounted(async () => {
           <el-row>
             <span style="margin-right: 10px">实验室</span>
             <el-input class="input" v-model="queryParam.laboratoryNameFilter" @keyup.enter="query"/>
+          </el-row>
+          <el-row>
+            <span style="margin-right: 10px">地址</span>
+            <el-input class="input" v-model="queryParam.addressFilter" @keyup.enter="query"/>
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
