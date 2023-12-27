@@ -11,3 +11,7 @@ export const secretaryDetail = (id) => {
 export const modifySecretary = (secretary) => {
     return request.post('/person/secretary/modify', secretary)
 }
+
+export const deleteSecretary = (id) => {
+    return request.delete(`/person/secretary/delete/${id}`)
+}

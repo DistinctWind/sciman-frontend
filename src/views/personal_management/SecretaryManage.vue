@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {listSecretary, modifySecretary, secretaryDetail} from "@/api/person/secretary";
+import {deleteSecretary, listSecretary, modifySecretary, secretaryDetail} from "@/api/person/secretary";
 import log from "@/utils/debug";
 import {getToday} from "@/utils/date";
 import {analysisResponse} from "@/utils/analysisResponse";
@@ -53,7 +53,11 @@ const confirmModify = async () => {
   modifyDialogVisible.value = false
 }
 const deleteSecretaryOf = async (secretary) => {
-  log(secretary)
+  log(`delete ${secretary.employeeId}`)
+  const result = await deleteSecretary(secretary.employeeId)
+  const response = result.data
+  analysisResponse(response)
+  await query()
 }
 </script>
 
