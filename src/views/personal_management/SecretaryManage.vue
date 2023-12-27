@@ -1,6 +1,12 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {deleteSecretary, listSecretary, modifySecretary, secretaryDetail} from "@/api/person/secretary";
+import {
+  deleteSecretary,
+  insertSecretary,
+  listSecretary,
+  modifySecretary,
+  secretaryDetail
+} from "@/api/person/secretary";
 import log from "@/utils/debug";
 import {getToday} from "@/utils/date";
 import {analysisResponse} from "@/utils/analysisResponse";
@@ -24,8 +30,9 @@ onMounted(async () => {
   await query()
 })
 
-const modifyDialogVisible = ref(false)
-const modifyDialogData = reactive({
+const dataDialogVisible = ref(false)
+const employeeIdVisible = ref(false)
+const dialogData = reactive({
   employeeId: 0,
   name: '',
   gender: 0,
@@ -34,23 +41,29 @@ const modifyDialogData = reactive({
   duty: '',
 })
 const modifySecretaryOf = async (secretary) => {
-  modifyDialogVisible.value = true
+  dataDialogVisible.value = true
+  employeeIdVisible.value = true
   const initialData = (await secretaryDetail(secretary.employeeId)).data.data
   const updateKeys = Object.keys(initialData)
   updateKeys.forEach(key => {
-    if (modifyDialogData[key] !== undefined){
-      modifyDialogData[key] = initialData[key]
+    if (dialogData[key] !== undefined){
+      dialogData[key] = initialData[key]
     }
   })
 }
 
-const confirmModify = async () => {
-  log(modifyDialogData)
-  const result = await modifySecretary(modifyDialogData)
+const confirm = async () => {
+  log(dialogData)
+  let result = null
+  if (employeeIdVisible.value){
+    result = await modifySecretary(dialogData)
+  } else {
+    result = await insertSecretary(dialogData)
+  }
   const response = result.data
   analysisResponse(response)
   await query()
-  modifyDialogVisible.value = false
+  dataDialogVisible.value = false
 }
 const deleteSecretaryOf = async (secretary) => {
   log(`delete ${secretary.employeeId}`)
@@ -58,6 +71,17 @@ const deleteSecretaryOf = async (secretary) => {
   const response = result.data
   analysisResponse(response)
   await query()
+}
+
+const insert = async () => {
+  dataDialogVisible.value = true
+  employeeIdVisible.value = false
+  const keys = Object.keys(dialogData)
+  keys.forEach(key => {
+    dialogData[key] = ''
+  })
+  dialogData.employDate = getToday()
+
 }
 </script>
 
@@ -70,7 +94,10 @@ const deleteSecretaryOf = async (secretary) => {
             <span style="margin-right: 10px">姓名</span>
             <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
           </el-row>
-          <el-button class="query" type="primary" @click="query">查询</el-button>
+          <div class="query">
+            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="success" @click="insert">新增</el-button>
+          </div>
         </el-row>
       </el-header>
       <el-main>
@@ -102,35 +129,38 @@ const deleteSecretaryOf = async (secretary) => {
         />
       </el-main>
     </el-container>
-    <el-dialog v-model="modifyDialogVisible">
-      <el-form :model="modifyDialogData">
-        <el-form-item label="工号">
-          <el-input v-model="modifyDialogData.employeeId" disabled/>
+    <el-dialog v-model="dataDialogVisible">
+      <el-form :model="dialogData">
+        <el-form-item label="工号" v-if="employeeIdVisible">
+          <el-input v-model="dialogData.employeeId" disabled/>
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="modifyDialogData.name"/>
+          <el-input v-model="dialogData.name"/>
         </el-form-item>
         <el-form-item label="性别">
-          <el-radio-group v-model="modifyDialogData.gender">
+          <el-radio-group v-model="dialogData.gender">
             <el-radio :label="1">男</el-radio>
             <el-radio :label="2">女</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="年龄">
+          <el-input v-model="dialogData.age" oninput="value=value.replace(/\D/g, '')"/>
+        </el-form-item>
         <el-form-item label="聘用时间">
           <el-date-picker
-              v-model="modifyDialogData.employDate"
+              v-model="dialogData.employDate"
               type="date"
               placeholder="Pick a day"
           />
         </el-form-item>
         <el-form-item label="职务">
-          <el-input v-model="modifyDialogData.duty"/>
+          <el-input v-model="dialogData.duty"/>
         </el-form-item>
       </el-form>
       <template #footer>
       <span class="dialog-footer">
-        <el-button @click="modifyDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="confirmModify">
+        <el-button @click="dataDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirm">
           确认
         </el-button>
       </span>
