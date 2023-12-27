@@ -51,7 +51,6 @@ onMounted(async () => {
         <el-table-column label="操作">
           <template #default="scope">
             <el-button size="small" @click="modifySecretaryOf(scope.row)">修改</el-button>
-            <el-button size="small" type="danger" @click="deleteSecretaryOf(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
