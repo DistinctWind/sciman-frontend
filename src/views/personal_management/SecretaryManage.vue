@@ -1,7 +1,9 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {listSecretary} from "@/api/person/secretary";
+import {listSecretary, modifySecretary, secretaryDetail} from "@/api/person/secretary";
 import log from "@/utils/debug";
+import {getToday} from "@/utils/date";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const secretaryData = ref([])
 const secretaryCount = ref(10)
@@ -21,6 +23,38 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+const modifyDialogVisible = ref(false)
+const modifyDialogData = reactive({
+  employeeId: 0,
+  name: '',
+  gender: 0,
+  age: 0,
+  employDate: getToday(),
+  duty: '',
+})
+const modifySecretaryOf = async (secretary) => {
+  modifyDialogVisible.value = true
+  const initialData = (await secretaryDetail(secretary.employeeId)).data.data
+  const updateKeys = Object.keys(initialData)
+  updateKeys.forEach(key => {
+    if (modifyDialogData[key] !== undefined){
+      modifyDialogData[key] = initialData[key]
+    }
+  })
+}
+
+const confirmModify = async () => {
+  log(modifyDialogData)
+  const result = await modifySecretary(modifyDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+  modifyDialogVisible.value = false
+}
+const deleteSecretaryOf = async (secretary) => {
+  log(secretary)
+}
 </script>
 
 <template>
@@ -48,8 +82,8 @@ onMounted(async () => {
           <el-table-column prop="age" label="年龄"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifyResearcherOf(scope.row)">修改</el-button>
-              <el-button size="small" type="danger" @click="deleteResearcherOf(scope.row)">删除</el-button>
+              <el-button size="small" @click="modifySecretaryOf(scope.row)">修改</el-button>
+              <el-button size="small" type="danger" @click="deleteSecretaryOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -64,6 +98,40 @@ onMounted(async () => {
         />
       </el-main>
     </el-container>
+    <el-dialog v-model="modifyDialogVisible">
+      <el-form :model="modifyDialogData">
+        <el-form-item label="工号">
+          <el-input v-model="modifyDialogData.employeeId" disabled/>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="modifyDialogData.name"/>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-radio-group v-model="modifyDialogData.gender">
+            <el-radio :label="1">男</el-radio>
+            <el-radio :label="2">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="聘用时间">
+          <el-date-picker
+              v-model="modifyDialogData.employDate"
+              type="date"
+              placeholder="Pick a day"
+          />
+        </el-form-item>
+        <el-form-item label="职务">
+          <el-input v-model="modifyDialogData.duty"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="modifyDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmModify">
+          确认
+        </el-button>
+      </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
