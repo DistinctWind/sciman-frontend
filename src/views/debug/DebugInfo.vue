@@ -18,6 +18,7 @@ const tableColumns = [
 ]
 
 const debugTarget = ref('')
+const labId = ref(1)
 
 watch(debugTarget, (newVal) => {
   log(`debug target changed to ${newVal}`)
@@ -32,7 +33,9 @@ watch(debugTarget, (newVal) => {
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <ResearcherSelection v-model="debugTarget"/>
+    <ResearcherSelection v-model="debugTarget"
+      v-model:lab-id="labId"/>
+    <el-input v-model="labId"/>
   </div>
 </template>
 

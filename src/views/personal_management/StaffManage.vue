@@ -1,7 +1,10 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {listStaff} from "@/api/person/staff";
+import {getStaffDetail, listStaff, modifyStaff} from "@/api/person/staff";
 import log from "@/utils/debug";
+import {getToday} from "@/utils/date";
+import ResearcherSelection from "@/components/select/ResearcherSelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const staffData = ref([])
 const staffCount = ref(10)
@@ -23,6 +26,33 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+const dataDialogVisible = ref(false)
+const dialogData = reactive({
+  id: 0,
+  researcherId: 0,
+  laboratoryId: 0,
+  laboratoryNameView: '',
+  dueDate: getToday(),
+})
+const modifyStaffOf = async (staff) => {
+  dataDialogVisible.value = true
+  const initialData = (await getStaffDetail(staff.id)).data.data
+  const initialKeys = Object.keys(initialData)
+  initialKeys.forEach(key => {
+    dialogData[key] = initialData[key]
+  })
+  dialogData.laboratoryNameView = `[${dialogData.laboratoryId}] ${staff.laboratoryName}`
+}
+
+const confirm = async () => {
+  const result = await modifyStaff(dialogData)
+  const response = result.data
+  analysisResponse(response)
+  dataDialogVisible.value = false
+  await query()
+}
+
 </script>
 
 <template>
@@ -39,19 +69,18 @@ onMounted(async () => {
         </el-row>
         <div class="query">
           <el-button type="primary" @click="query">查询</el-button>
-          <el-button type="success" @click="insert">新增</el-button>
         </div>
       </el-row>
     </el-header>
     <el-main>
       <el-table :data="staffData" border style="width: 100%">
-        <el-table-column prop="id" label="工号" width="180"/>
-        <el-table-column prop="laboratoryName" label="实验室"/>
+        <el-table-column prop="id" label="主任ID" width="180" disabled/>
+        <el-table-column prop="laboratoryName" label="实验室" disabled/>
         <el-table-column prop="researcherName" label="主任"/>
+        <el-table-column prop="dueDate" label="任期" width="180" disabled/>
         <el-table-column label="操作">
           <template #default="scope">
-            <el-button size="small" @click="modifySecretaryOf(scope.row)">修改</el-button>
-            <el-button size="small" type="danger" @click="deleteSecretaryOf(scope.row)">删除</el-button>
+            <el-button size="small" @click="modifyStaffOf(scope.row)">修改</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -67,31 +96,24 @@ onMounted(async () => {
     </el-main>
   </el-container>
   <el-dialog v-model="dataDialogVisible">
-    <el-form :model="dialogData">
-      <el-form-item label="工号" v-if="employeeIdVisible">
-        <el-input v-model="dialogData.employeeId" disabled/>
+    <el-form :model="dialogData" label-width="100">
+      <el-form-item label="主任ID">
+        <el-input v-model="dialogData.id" disabled/>
       </el-form-item>
-      <el-form-item label="姓名">
-        <el-input v-model="dialogData.name"/>
+      <el-form-item label="实验室">
+        <el-input v-model="dialogData.laboratoryNameView" disabled/>
       </el-form-item>
-      <el-form-item label="性别">
-        <el-radio-group v-model="dialogData.gender">
-          <el-radio :label="1">男</el-radio>
-          <el-radio :label="2">女</el-radio>
-        </el-radio-group>
+      <el-form-item label="主任">
+        <ResearcherSelection v-model="dialogData.researcherId"
+                             v-model:lab-id="dialogData.laboratoryId"/>
       </el-form-item>
-      <el-form-item label="年龄">
-        <el-input v-model="dialogData.age" oninput="value=value.replace(/\D/g, '')"/>
-      </el-form-item>
-      <el-form-item label="聘用时间">
+      <el-form-item label="任期">
         <el-date-picker
-            v-model="dialogData.employDate"
+            v-model="dialogData.dueDate"
             type="date"
             placeholder="Pick a day"
+            value-format="YYYY-MM-DD"
         />
-      </el-form-item>
-      <el-form-item label="职务">
-        <el-input v-model="dialogData.duty"/>
       </el-form-item>
     </el-form>
     <template #footer>

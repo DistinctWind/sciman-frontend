@@ -3,25 +3,32 @@ import {onMounted, ref, watch} from "vue";
 import {listAllResearcher} from "@/api/person/researcher";
 import log from "@/utils/debug";
 
-const props = defineProps(['modelValue'])
-const emit = defineEmits(['update:modelValue'])
-
+const props = defineProps(['modelValue', 'labId'])
+const emit = defineEmits(['update:modelValue', 'update:labId'])
 
 const selectedOption = ref()
 const options = ref([])
+const labId = ref()
 const fetchOptions = async () => {
-  const result = await listAllResearcher()
+  log(`fetching options for lab ${labId.value}`)
+  const result = await listAllResearcher(labId.value)
   const response = result.data
   options.value = response.data
 }
 
 onMounted(async () => {
-  await fetchOptions()
   selectedOption.value = props.modelValue
+  labId.value = props.labId
+  await fetchOptions()
 })
 
 watch(()=>props.modelValue, (newVal) => {
   selectedOption.value = newVal
+})
+
+watch(()=>props.labId, async (newVal) => {
+  labId.value = newVal
+  await fetchOptions()
 })
 
 const handleSelect = () => {
