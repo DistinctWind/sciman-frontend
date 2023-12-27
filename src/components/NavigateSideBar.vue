@@ -41,6 +41,10 @@ import {
             <span>主任管理</span>
           </el-menu-item>
         </el-sub-menu>
+        <el-menu-item index="4" @click="$router.push('/venueManagement')">
+          <el-icon><House /></el-icon>
+          <span>场地管理</span>
+        </el-menu-item>
       </el-menu>
     </el-scrollbar>
   </div>
