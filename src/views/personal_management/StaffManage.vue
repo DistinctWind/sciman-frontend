@@ -23,6 +23,9 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+const dataDialogVisible = ref(false)
+
 </script>
 
 <template>
@@ -39,7 +42,6 @@ onMounted(async () => {
         </el-row>
         <div class="query">
           <el-button type="primary" @click="query">查询</el-button>
-          <el-button type="success" @click="insert">新增</el-button>
         </div>
       </el-row>
     </el-header>
