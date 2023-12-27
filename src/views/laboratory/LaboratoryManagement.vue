@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
-import {listLaboratory, modifyLaboratorySecretary} from "@/api/lab/laboratory";
+import {deleteLabById, listLaboratory, modifyLaboratorySecretary} from "@/api/lab/laboratory";
 import {getSecretaryIdOfLabId} from "@/api/person/secretary";
 import SecretarySelection from "@/components/select/SecretarySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
@@ -55,6 +55,22 @@ const showOrientationDialog = (lab) => {
   orientationDialogVisible.value = true
   orientationDialogLabId.value = lab.id
 }
+
+const deleteWarningDialogVisible = ref(false)
+const deleteTargetLabId = ref(0)
+const deleteWarningConfirm = async () => {
+  deleteWarningDialogVisible.value = false
+  const result = await deleteLabById(deleteTargetLabId.value)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
+const deleteLabOf = (lab) => {
+  log(`delete lab ${lab.id}`)
+  deleteTargetLabId.value = lab.id
+  deleteWarningDialogVisible.value = true
+}
 </script>
 
 <template>
@@ -82,7 +98,7 @@ const showOrientationDialog = (lab) => {
             <template #default="scope">
               <el-button size="small" @click="modifySecretary(scope.row)">修改秘书</el-button>
               <el-button size="small" @click="showOrientationDialog(scope.row)">查询研究方向</el-button>
-              <el-button size="small" type="danger" @click="deleteVenueOf(scope.row)">删除</el-button>
+              <el-button size="small" type="danger" @click="deleteLabOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -119,6 +135,18 @@ const showOrientationDialog = (lab) => {
     </el-dialog>
     <OrientationDialog v-model="orientationDialogVisible"
                        v-model:laboratory-id="orientationDialogLabId"/>
+    <el-dialog v-model="deleteWarningDialogVisible">
+      <template #header>
+        <span>警告</span>
+      </template>
+      删除实验室会同时移除该实验室的所有研究人员和研究场所，是否确认删除？
+      <template #footer>
+        <el-button @click="deleteWarningDialogVisible = false">取消</el-button>
+        <el-button type="danger" @click="deleteWarningConfirm">
+          确认
+        </el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
