@@ -151,6 +151,7 @@ const insert = async () => {
               v-model="dialogData.employDate"
               type="date"
               placeholder="Pick a day"
+              value-format="YYYY-MM-DD"
           />
         </el-form-item>
         <el-form-item label="职务">
