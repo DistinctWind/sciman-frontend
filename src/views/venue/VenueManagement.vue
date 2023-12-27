@@ -6,6 +6,7 @@ import {listVenue} from "@/api/venue/venue";
 const tableData = ref([])
 const tableTotal = ref(10)
 const queryParam = reactive({
+  laboratoryNameFilter: '',
   page: 1,
   pageSize: 10
 })
@@ -29,10 +30,6 @@ onMounted(async () => {
     <el-container>
       <el-header>
         <el-row>
-          <el-row>
-            <span style="margin-right: 10px">姓名</span>
-            <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
-          </el-row>
           <el-row>
             <span style="margin-right: 10px">实验室</span>
             <el-input class="input" v-model="queryParam.laboratoryNameFilter" @keyup.enter="query"/>
