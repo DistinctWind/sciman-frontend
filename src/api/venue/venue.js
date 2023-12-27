@@ -15,3 +15,7 @@ export const deleteVenue = (id) => {
 export const modifyVenue = (venue) => {
     return request.post('/venue/modify', venue)
 }
+
+export const insertVenue = (venue) => {
+    return request.post('/venue/insert', venue)
+}

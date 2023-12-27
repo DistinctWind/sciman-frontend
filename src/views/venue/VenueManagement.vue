@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
-import {deleteVenue, getVenueDetail, listVenue, modifyVenue} from "@/api/venue/venue";
+import {deleteVenue, getVenueDetail, insertVenue, listVenue, modifyVenue} from "@/api/venue/venue";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 
@@ -55,10 +55,24 @@ const deleteVenueOf = async (venue) => {
 
 const confirm = async () => {
   dataDialogVisible.value = false
-  const result = await modifyVenue(dialogData)
+  let result = null
+  if (idVisible.value) {
+    result = await modifyVenue(dialogData)
+  } else {
+    result = await insertVenue(dialogData)
+  }
   const response = result.data
   analysisResponse(response)
   await query()
+}
+
+const insert = () => {
+  dataDialogVisible.value = true
+  idVisible.value = false
+  dialogData.id = ''
+  dialogData.laboratoryId = ''
+  dialogData.area = ''
+  dialogData.address = ''
 }
 </script>
 
@@ -106,14 +120,14 @@ const confirm = async () => {
     </el-container>
     <el-dialog v-model="dataDialogVisible">
       <el-form :model="dialogData" label-width="120px">
-        <el-form-item label="场地ID" v-if="true">
+        <el-form-item label="场地ID" v-if="idVisible">
           <el-input v-model="dialogData.id" disabled/>
         </el-form-item>
         <el-form-item label="所属实验室">
           <LaboratorySelection v-model="dialogData.laboratoryId"/>
         </el-form-item>
         <el-form-item label="面积（㎡）">
-          <el-input v-model="dialogData.area"/>
+          <el-input v-model="dialogData.area" oninput="value=value.replace(/[^\d.]/g, '')"/>
         </el-form-item>
         <el-form-item label="地址">
           <el-input v-model="dialogData.address"/>
