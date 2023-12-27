@@ -4,6 +4,7 @@ import {getOrientationOfLabId} from "@/api/lab/laboratory";
 import log from "@/utils/debug";
 
 const props = defineProps(['modelValue', 'laboratoryId'])
+const emit = defineEmits(['update:modelValue'])
 
 const dialogVisible = ref(false)
 const laboratoryId = ref('')
@@ -24,6 +25,10 @@ watch(()=>props.modelValue, (newVal) => {
 watch(()=>props.laboratoryId, async (newVal) => {
   laboratoryId.value = newVal
   await query()
+})
+
+watch(()=>dialogVisible.value, (newVal) => {
+  emit('update:modelValue', newVal)
 })
 
 onMounted(async () => {

@@ -5,6 +5,7 @@ import {listLaboratory, modifyLaboratorySecretary} from "@/api/lab/laboratory";
 import {getSecretaryIdOfLabId} from "@/api/person/secretary";
 import SecretarySelection from "@/components/select/SecretarySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
+import OrientationDialog from "@/components/laboratory/OrientationDialog.vue";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -47,6 +48,13 @@ const modifySecretaryConfirm = async () => {
   analysisResponse(response)
   await query()
 }
+
+const orientationDialogVisible = ref(false)
+const orientationDialogLabId = ref(0)
+const showOrientationDialog = (lab) => {
+  orientationDialogVisible.value = true
+  orientationDialogLabId.value = lab.id
+}
 </script>
 
 <template>
@@ -73,6 +81,7 @@ const modifySecretaryConfirm = async () => {
           <el-table-column label="操作">
             <template #default="scope">
               <el-button size="small" @click="modifySecretary(scope.row)">修改秘书</el-button>
+              <el-button size="small" @click="showOrientationDialog(scope.row)">查询研究方向</el-button>
               <el-button size="small" type="danger" @click="deleteVenueOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -108,6 +117,8 @@ const modifySecretaryConfirm = async () => {
       </span>
       </template>
     </el-dialog>
+    <OrientationDialog v-model="orientationDialogVisible"
+                       v-model:laboratory-id="orientationDialogLabId"/>
   </div>
 </template>
 
