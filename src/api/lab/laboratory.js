@@ -7,3 +7,7 @@ export const listAllLaboratories = () => {
 export const listAllLabIntros = () => {
     return request.get('/lab/listIntro')
 }
+
+export const listLaboratory = (param) => {
+    return request.post('/lab/list', param)
+}
