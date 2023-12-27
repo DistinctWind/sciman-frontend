@@ -1,6 +1,9 @@
 <script setup>
 
 import {coreInfo} from "@/store";
+import ResearcherSelection from "@/components/select/ResearcherSelection.vue";
+import {ref, watch} from "vue";
+import log from "@/utils/debug";
 
 const {username, id, role} = coreInfo()
 
@@ -13,6 +16,12 @@ const tableColumns = [
   {prop: 'id', label: 'ID'},
   {prop: 'role', label: 'Role'}
 ]
+
+const debugTarget = ref('')
+
+watch(debugTarget, (newVal) => {
+  log(`debug target changed to ${newVal}`)
+})
 </script>
 
 <template>
@@ -23,6 +32,7 @@ const tableColumns = [
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
+    <ResearcherSelection v-model="debugTarget"/>
   </div>
 </template>
 
