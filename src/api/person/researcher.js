@@ -1,7 +1,11 @@
 import request from "@/utils/request";
 
-export const listAllResearcher = () => {
-    return request.get('/person/researcher/listAll')
+export const listAllResearcher = (labId) => {
+    return request.get('/person/researcher/listAll', {
+        params: {
+            laboratoryId: labId
+        }
+    })
 }
 
 export const listResearcher = (queryParam) => {
