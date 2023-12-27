@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {listSecretary, secretaryDetail} from "@/api/person/secretary";
+import {listSecretary, modifySecretary, secretaryDetail} from "@/api/person/secretary";
 import log from "@/utils/debug";
 import {getToday} from "@/utils/date";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const secretaryData = ref([])
 const secretaryCount = ref(10)
@@ -41,6 +42,15 @@ const modifySecretaryOf = async (secretary) => {
       modifyDialogData[key] = initialData[key]
     }
   })
+}
+
+const confirmModify = async () => {
+  log(modifyDialogData)
+  const result = await modifySecretary(modifyDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+  modifyDialogVisible.value = false
 }
 const deleteSecretaryOf = async (secretary) => {
   log(secretary)
@@ -113,6 +123,14 @@ const deleteSecretaryOf = async (secretary) => {
           <el-input v-model="modifyDialogData.duty"/>
         </el-form-item>
       </el-form>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="modifyDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmModify">
+          确认
+        </el-button>
+      </span>
+      </template>
     </el-dialog>
   </div>
 </template>
