@@ -15,3 +15,7 @@ export const listLaboratory = (param) => {
 export const modifyLaboratorySecretary = (param) => {
     return request.post('/lab/modifySecretary', param)
 }
+
+export const getOrientationOfLabId = (labId) => {
+    return request.get(`/lab/queryOrientation/${labId}`)
+}
