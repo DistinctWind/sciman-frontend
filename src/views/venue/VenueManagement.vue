@@ -1,7 +1,8 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
-import {listVenue} from "@/api/venue/venue";
+import {getVenueDetail, listVenue} from "@/api/venue/venue";
+import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -24,6 +25,25 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+const dialogData = reactive({
+  id: '',
+  laboratoryId: '',
+  laboratoryName: '',
+  area: '',
+  address: ''
+})
+const dataDialogVisible = ref(false)
+
+const modifyVenueOf = async (venue) => {
+  dialogData.value = venue
+  dataDialogVisible.value = true
+  const initialData = (await getVenueDetail(venue.id)).data.data
+  const initialKeys = Object.keys(initialData)
+  initialKeys.forEach(key => {
+    dialogData[key] = initialData[key]
+  })
+}
 </script>
 
 <template>
@@ -53,7 +73,7 @@ onMounted(async () => {
           <el-table-column prop="address" label="地址"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifyResearcherOf(scope.row)">修改</el-button>
+              <el-button size="small" @click="modifyVenueOf(scope.row)">修改</el-button>
               <el-button size="small" type="danger" @click="deleteResearcherOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -70,29 +90,17 @@ onMounted(async () => {
     </el-container>
     <el-dialog v-model="dataDialogVisible">
       <el-form :model="dialogData" label-width="120px">
-        <el-form-item label="工号" v-if="employeeIdVisible">
-          <el-input v-model="dialogData.employeeId" disabled/>
+        <el-form-item label="场地ID" v-if="true">
+          <el-input v-model="dialogData.id" disabled/>
         </el-form-item>
         <el-form-item label="所属实验室">
           <LaboratorySelection v-model="dialogData.laboratoryId"/>
         </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="dialogData.name"/>
+        <el-form-item label="面积（㎡）">
+          <el-input v-model="dialogData.area"/>
         </el-form-item>
-        <el-form-item label="性别">
-          <el-radio-group v-model="dialogData.gender">
-            <el-radio label="1">男</el-radio>
-            <el-radio label="2">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="职称">
-          <el-input v-model="dialogData.title"/>
-        </el-form-item>
-        <el-form-item label="年龄">
-          <el-input v-model="dialogData.age" oninput="value = value.replace(/\D/g, '')"/>
-        </el-form-item>
-        <el-form-item label="研究方向">
-          <el-input v-model="dialogData.orientation"/>
+        <el-form-item label="地址">
+          <el-input v-model="dialogData.address"/>
         </el-form-item>
       </el-form>
       <template #footer>
