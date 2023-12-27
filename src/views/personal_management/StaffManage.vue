@@ -1,9 +1,10 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {getStaffDetail, listStaff} from "@/api/person/staff";
+import {getStaffDetail, listStaff, modifyStaff} from "@/api/person/staff";
 import log from "@/utils/debug";
 import {getToday} from "@/utils/date";
 import ResearcherSelection from "@/components/select/ResearcherSelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const staffData = ref([])
 const staffCount = ref(10)
@@ -42,6 +43,14 @@ const modifyStaffOf = async (staff) => {
     dialogData[key] = initialData[key]
   })
   dialogData.laboratoryNameView = `[${dialogData.laboratoryId}] ${staff.laboratoryName}`
+}
+
+const confirm = async () => {
+  const result = await modifyStaff(dialogData)
+  const response = result.data
+  analysisResponse(response)
+  dataDialogVisible.value = false
+  await query()
 }
 
 </script>
