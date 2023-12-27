@@ -8,6 +8,10 @@ export const getVenueDetail = (id) => {
     return request.get(`/venue/detail/${id}`)
 }
 
+export const deleteVenue = (id) => {
+    return request.delete(`/venue/delete/${id}`)
+}
+
 export const modifyVenue = (venue) => {
     return request.post('/venue/modify', venue)
 }

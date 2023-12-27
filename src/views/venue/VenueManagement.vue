@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
-import {getVenueDetail, listVenue, modifyVenue} from "@/api/venue/venue";
+import {deleteVenue, getVenueDetail, listVenue, modifyVenue} from "@/api/venue/venue";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 
@@ -46,6 +46,13 @@ const modifyVenueOf = async (venue) => {
   })
 }
 
+const deleteVenueOf = async (venue) => {
+  const result = await deleteVenue(venue.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
 const confirm = async () => {
   dataDialogVisible.value = false
   const result = await modifyVenue(dialogData)
@@ -83,7 +90,7 @@ const confirm = async () => {
           <el-table-column label="操作">
             <template #default="scope">
               <el-button size="small" @click="modifyVenueOf(scope.row)">修改</el-button>
-              <el-button size="small" type="danger" @click="deleteResearcherOf(scope.row)">删除</el-button>
+              <el-button size="small" type="danger" @click="deleteVenueOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
