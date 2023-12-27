@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
-import {deleteVenue, getVenueDetail, listVenue} from "@/api/venue/venue";
+import {deleteVenue, getVenueDetail, listVenue, modifyVenue} from "@/api/venue/venue";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 
@@ -30,15 +30,15 @@ onMounted(async () => {
 const dialogData = reactive({
   id: '',
   laboratoryId: '',
-  laboratoryName: '',
   area: '',
   address: ''
 })
 const dataDialogVisible = ref(false)
+const idVisible = ref(false)
 
 const modifyVenueOf = async (venue) => {
-  dialogData.value = venue
   dataDialogVisible.value = true
+  idVisible.value = true
   const initialData = (await getVenueDetail(venue.id)).data.data
   const initialKeys = Object.keys(initialData)
   initialKeys.forEach(key => {
@@ -48,6 +48,14 @@ const modifyVenueOf = async (venue) => {
 
 const deleteVenueOf = async (venue) => {
   const result = await deleteVenue(venue.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
+const confirm = async () => {
+  dataDialogVisible.value = false
+  const result = await modifyVenue(dialogData)
   const response = result.data
   analysisResponse(response)
   await query()
