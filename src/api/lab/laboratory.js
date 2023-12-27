@@ -11,3 +11,7 @@ export const listAllLabIntros = () => {
 export const listLaboratory = (param) => {
     return request.post('/lab/list', param)
 }
+
+export const modifyLaboratorySecretary = (param) => {
+    return request.post('/lab/modifySecretary', param)
+}

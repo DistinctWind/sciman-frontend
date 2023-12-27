@@ -1,9 +1,10 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
-import {listLaboratory} from "@/api/lab/laboratory";
+import {listLaboratory, modifyLaboratorySecretary} from "@/api/lab/laboratory";
 import {getSecretaryIdOfLabId} from "@/api/person/secretary";
 import SecretarySelection from "@/components/select/SecretarySelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -37,7 +38,14 @@ const modifySecretary = async (lab) => {
   modifySecretaryDialogData.laboratoryName = lab.laboratoryName
   modifySecretaryDialogData.laboratoryId = lab.id
   modifySecretaryDialogData.secretaryId = (await getSecretaryIdOfLabId(lab.id)).data.data
+}
 
+const modifySecretaryConfirm = async () => {
+  modifySecretaryDialogVisible.value = false
+  const result = await modifyLaboratorySecretary(modifySecretaryDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
 }
 </script>
 
@@ -93,8 +101,8 @@ const modifySecretary = async (lab) => {
       </el-form>
       <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dataDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="confirm">
+        <el-button @click="modifySecretaryDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="modifySecretaryConfirm">
           确认
         </el-button>
       </span>
