@@ -163,7 +163,7 @@ const insert = async () => {
           <el-input v-model="dialogData.title"/>
         </el-form-item>
         <el-form-item label="年龄">
-          <el-input v-model="dialogData.age"/>
+          <el-input v-model="dialogData.age" oninput="value = value.replace(/\D/g, '')"/>
         </el-form-item>
         <el-form-item label="研究方向">
           <el-input v-model="dialogData.orientation"/>
