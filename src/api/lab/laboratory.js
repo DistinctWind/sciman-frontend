@@ -19,3 +19,7 @@ export const modifyLaboratorySecretary = (param) => {
 export const getOrientationOfLabId = (labId) => {
     return request.get(`/lab/queryOrientation/${labId}`)
 }
+
+export const deleteLabById = (labId) => {
+    return request.delete(`/lab/delete/${labId}`)
+}
