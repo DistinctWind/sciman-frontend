@@ -19,3 +19,7 @@ export const modifyResearcher = (researcher) => {
 export const deleteResearcher = (id) => {
     return request.delete(`/person/researcher/delete/${id}`)
 }
+
+export const insertResearcher = (researcher) => {
+    return request.post('/person/researcher/insert', researcher)
+}

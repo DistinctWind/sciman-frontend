@@ -1,6 +1,12 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {deleteResearcher, listResearcher, modifyResearcher, researcherDetail} from "@/api/person/researcher";
+import {
+  deleteResearcher,
+  insertResearcher,
+  listResearcher,
+  modifyResearcher,
+  researcherDetail
+} from "@/api/person/researcher";
 import log from "@/utils/debug";
 import LaboratorySelection from "@/components/select/LaboratorySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
@@ -27,8 +33,9 @@ onMounted(async () => {
   await query()
 })
 
-const modifyDialogVisible = ref(false)
-const modifyDialogData = reactive({
+const employeeIdVisible = ref(true)
+const dataDialogVisible = ref(false)
+const dialogData = reactive({
   employeeId: 0,
   laboratoryId: 0,
   name: '',
@@ -40,18 +47,19 @@ const modifyDialogData = reactive({
 
 const modifyResearcherOf = async (researcher) => {
   // log(researcher)
-  modifyDialogVisible.value = true
+  employeeIdVisible.value = true
+  dataDialogVisible.value = true
   const initialData = (await researcherDetail(researcher.employeeId)).data.data
   const {employeeId, laboratoryId, name, gender, title, age, orientation} = initialData
   log(initialData)
 
-  modifyDialogData.employeeId = employeeId
-  modifyDialogData.laboratoryId = laboratoryId
-  modifyDialogData.name = name
-  modifyDialogData.gender = String(gender)
-  modifyDialogData.title = title
-  modifyDialogData.age = age
-  modifyDialogData.orientation = orientation
+  dialogData.employeeId = employeeId
+  dialogData.laboratoryId = laboratoryId
+  dialogData.name = name
+  dialogData.gender = String(gender)
+  dialogData.title = title
+  dialogData.age = age
+  dialogData.orientation = orientation
 }
 
 const deleteResearcherOf = async (researcher) => {
@@ -61,13 +69,27 @@ const deleteResearcherOf = async (researcher) => {
   await query()
 }
 
-const confirmModify = async () => {
-  log(modifyDialogData)
-  modifyDialogVisible.value = false
-  const result = await modifyResearcher(modifyDialogData)
+const confirm = async () => {
+  log(dialogData)
+  dataDialogVisible.value = false
+  let result = null
+  if (employeeIdVisible.value) {
+    result = await modifyResearcher(dialogData)
+  } else {
+    result = await insertResearcher(dialogData)
+  }
   const response = result.data
   analysisResponse(response)
   await query()
+}
+
+const insert = async () => {
+  dataDialogVisible.value = true
+  employeeIdVisible.value = false
+  const keys = Object.keys(dialogData)
+  keys.forEach(key => {
+    dialogData[key] = ''
+  })
 }
 
 </script>
@@ -85,7 +107,10 @@ const confirmModify = async () => {
             <span style="margin-right: 10px">实验室</span>
             <el-input class="input" v-model="queryParam.laboratoryNameFilter" @keyup.enter="query"/>
           </el-row>
-          <el-button class="query" type="primary" @click="query">查询</el-button>
+          <div class="query">
+            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="success" @click="insert">新增</el-button>
+          </div>
         </el-row>
       </el-header>
       <el-main class="el-main">
@@ -117,37 +142,37 @@ const confirmModify = async () => {
                        @current-change="query"/>
       </el-main>
     </el-container>
-    <el-dialog v-model="modifyDialogVisible">
-      <el-form :model="modifyDialogData" label-width="120px">
-        <el-form-item label="工号">
-          <el-input v-model="modifyDialogData.employeeId" disabled/>
+    <el-dialog v-model="dataDialogVisible">
+      <el-form :model="dialogData" label-width="120px">
+        <el-form-item label="工号" v-if="employeeIdVisible">
+          <el-input v-model="dialogData.employeeId" disabled/>
         </el-form-item>
         <el-form-item label="所属实验室">
-          <LaboratorySelection v-model="modifyDialogData.laboratoryId"/>
+          <LaboratorySelection v-model="dialogData.laboratoryId"/>
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="modifyDialogData.name"/>
+          <el-input v-model="dialogData.name"/>
         </el-form-item>
         <el-form-item label="性别">
-          <el-radio-group v-model="modifyDialogData.gender">
+          <el-radio-group v-model="dialogData.gender">
             <el-radio label="1">男</el-radio>
             <el-radio label="2">女</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="职称">
-          <el-input v-model="modifyDialogData.title"/>
+          <el-input v-model="dialogData.title"/>
         </el-form-item>
         <el-form-item label="年龄">
-          <el-input v-model="modifyDialogData.age"/>
+          <el-input v-model="dialogData.age"/>
         </el-form-item>
         <el-form-item label="研究方向">
-          <el-input v-model="modifyDialogData.orientation"/>
+          <el-input v-model="dialogData.orientation"/>
         </el-form-item>
       </el-form>
       <template #footer>
       <span class="dialog-footer">
-        <el-button @click="modifyDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="confirmModify">
+        <el-button @click="dataDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirm">
           确认
         </el-button>
       </span>
