@@ -1,5 +1,10 @@
 import request from "@/utils/request";
 
+export const listAllSecretary = () => {
+    return request.get('/person/secretary/listAll')
+
+}
+
 export const listSecretary = (queryParam) => {
     return request.post('/person/secretary/list', queryParam)
 }

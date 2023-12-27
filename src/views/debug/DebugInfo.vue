@@ -1,9 +1,9 @@
 <script setup>
 
 import {coreInfo} from "@/store";
-import ResearcherSelection from "@/components/select/ResearcherSelection.vue";
 import {ref, watch} from "vue";
 import log from "@/utils/debug";
+import SecretarySelection from "@/components/select/SecretarySelection.vue";
 
 const {username, id, role} = coreInfo()
 
@@ -18,7 +18,6 @@ const tableColumns = [
 ]
 
 const debugTarget = ref('')
-const labId = ref(1)
 
 watch(debugTarget, (newVal) => {
   log(`debug target changed to ${newVal}`)
@@ -33,9 +32,7 @@ watch(debugTarget, (newVal) => {
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <ResearcherSelection v-model="debugTarget"
-      v-model:lab-id="labId"/>
-    <el-input v-model="labId"/>
+    <SecretarySelection v-model="debugTarget"/>
   </div>
 </template>
 

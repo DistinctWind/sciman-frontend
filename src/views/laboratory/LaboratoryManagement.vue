@@ -47,7 +47,7 @@ onMounted(async () => {
           <el-table-column prop="secretaryName" label="秘书"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifyVenueOf(scope.row)">修改</el-button>
+              <el-button size="small" @click="modifyVenueOf(scope.row)">修改秘书</el-button>
               <el-button size="small" type="danger" @click="deleteVenueOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
