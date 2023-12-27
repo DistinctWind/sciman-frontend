@@ -77,6 +77,7 @@ const confirm = async () => {
         <el-table-column prop="id" label="主任ID" width="180" disabled/>
         <el-table-column prop="laboratoryName" label="实验室" disabled/>
         <el-table-column prop="researcherName" label="主任"/>
+        <el-table-column prop="dueDate" label="任期" width="180" disabled/>
         <el-table-column label="操作">
           <template #default="scope">
             <el-button size="small" @click="modifyStaffOf(scope.row)">修改</el-button>
