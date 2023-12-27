@@ -3,6 +3,7 @@ import {onMounted, reactive, ref} from "vue";
 import {getStaffDetail, listStaff} from "@/api/person/staff";
 import log from "@/utils/debug";
 import {getToday} from "@/utils/date";
+import ResearcherSelection from "@/components/select/ResearcherSelection.vue";
 
 const staffData = ref([])
 const staffCount = ref(10)
@@ -93,7 +94,8 @@ const modifyStaffOf = async (staff) => {
         <el-input v-model="dialogData.laboratoryNameView" disabled/>
       </el-form-item>
       <el-form-item label="主任">
-
+        <ResearcherSelection v-model="dialogData.researcherId"
+                             v-model:lab-id="dialogData.laboratoryId"/>
       </el-form-item>
       <el-form-item label="任期">
         <el-date-picker
