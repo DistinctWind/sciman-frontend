@@ -10,6 +10,7 @@ import LaboratoryManagement from "@/views/laboratory/LaboratoryManagement.vue";
 import ResearcherManage from "@/views/personal_management/ResearcherManage.vue";
 import SecretaryManage from "@/views/personal_management/SecretaryManage.vue";
 import StaffManage from "@/views/personal_management/StaffManage.vue";
+import VenueManagement from "@/views/venue/VenueManagement.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -23,6 +24,7 @@ const routes = [
             {path: '/researcherManagement', component: ResearcherManage},
             {path: '/secretaryManagement', component: SecretaryManage},
             {path: '/staffManagement', component: StaffManage},
+            {path: '/venueManagement', component: VenueManagement}
         ],
         component: LayoutView,
         path: '/layout'
