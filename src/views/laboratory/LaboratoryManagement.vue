@@ -2,6 +2,8 @@
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
 import {listLaboratory} from "@/api/lab/laboratory";
+import {getSecretaryIdOfLabId} from "@/api/person/secretary";
+import SecretarySelection from "@/components/select/SecretarySelection.vue";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -22,6 +24,21 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+const modifySecretaryDialogVisible = ref(false)
+const modifySecretaryDialogData = reactive({
+  laboratoryId: '',
+  laboratoryName: '',
+  secretaryId: ''
+})
+
+const modifySecretary = async (lab) => {
+  modifySecretaryDialogVisible.value = true
+  modifySecretaryDialogData.laboratoryName = lab.laboratoryName
+  modifySecretaryDialogData.laboratoryId = lab.id
+  modifySecretaryDialogData.secretaryId = (await getSecretaryIdOfLabId(lab.id)).data.data
+
+}
 </script>
 
 <template>
@@ -47,7 +64,7 @@ onMounted(async () => {
           <el-table-column prop="secretaryName" label="秘书"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifyVenueOf(scope.row)">修改秘书</el-button>
+              <el-button size="small" @click="modifySecretary(scope.row)">修改秘书</el-button>
               <el-button size="small" type="danger" @click="deleteVenueOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -62,19 +79,16 @@ onMounted(async () => {
                        @current-change="query"/>
       </el-main>
     </el-container>
-    <el-dialog v-model="dataDialogVisible">
-      <el-form :model="dialogData" label-width="120px">
-        <el-form-item label="场地ID" v-if="idVisible">
-          <el-input v-model="dialogData.id" disabled/>
+    <el-dialog v-model="modifySecretaryDialogVisible">
+      <el-form :model="modifySecretaryDialogData" label-width="120px">
+        <el-form-item label="实验室ID">
+          <el-input v-model="modifySecretaryDialogData.laboratoryId" disabled/>
         </el-form-item>
-        <el-form-item label="所属实验室">
-          <LaboratorySelection v-model="dialogData.laboratoryId"/>
+        <el-form-item label="实验室名称">
+          <el-input v-model="modifySecretaryDialogData.laboratoryName" disabled/>
         </el-form-item>
-        <el-form-item label="面积（㎡）">
-          <el-input v-model="dialogData.area" oninput="value=value.replace(/[^\d.]/g, '')"/>
-        </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="dialogData.address"/>
+        <el-form-item label="秘书">
+          <SecretarySelection v-model="modifySecretaryDialogData.secretaryId"/>
         </el-form-item>
       </el-form>
       <template #footer>

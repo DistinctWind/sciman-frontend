@@ -24,3 +24,7 @@ export const deleteSecretary = (id) => {
 export const insertSecretary = (secretary) => {
     return request.post('/person/secretary/insert', secretary)
 }
+
+export const getSecretaryIdOfLabId = (labId) => {
+    return request.get(`/person/secretary/ofLab/${labId}`)
+}
