@@ -10,6 +10,7 @@ const queryParam = reactive({
   page: 1,
   pageSize: 10,
   projectNameFilter: '',
+  mainResearcherNameFilter: ''
 })
 
 const query = async () => {
@@ -38,6 +39,10 @@ const showDetailOf = (project) => {
           <el-row>
             <span style="margin-right: 10px">项目名</span>
             <el-input class="input" v-model="queryParam.projectNameFilter" @keyup.enter="query"/>
+          </el-row>
+          <el-row>
+            <span style="margin-right: 10px">负责人</span>
+            <el-input class="input" v-model="queryParam.mainResearcherNameFilter" @keyup.enter="query"/>
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
