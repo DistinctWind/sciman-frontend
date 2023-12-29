@@ -28,7 +28,7 @@ const routes = [
             {path: '/staffManagement', component: StaffManage},
             {path: '/venueManagement', component: VenueManagement},
             {path: '/projectManagement', component: ProjectManagement},
-            {path: '/projectDetail', component: ProjectDetail}
+            {path: '/projectDetail/:projectId', component: ProjectDetail, props: true},
         ],
         component: LayoutView,
         path: '/layout'

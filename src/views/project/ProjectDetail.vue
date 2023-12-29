@@ -1,19 +1,22 @@
 <script setup>
-import {useRouter} from "vue-router";
-import {computed} from "vue";
+import {useRoute} from "vue-router";
+import {computed, onMounted} from "vue";
+import log from "@/utils/debug";
 
-const router = useRouter()
+const route = useRoute();
+const projectId = computed(() => route.params.projectId)
 
-const projectId = computed(() => {
-  return router.currentRoute.value.params.projectId
-})
+onMounted(() => {
+  log(route.params.projectId);
+  // projectId.value = route.params.projectId
+});
 </script>
 
 <template>
-<div>
-  <h1>Project Detail</h1>
-  <p>{{projectId}}</p>
-</div>
+  <div>
+    <h1>Project Detail</h1>
+    <p>{{ projectId }}</p>
+  </div>
 </template>
 
 <style scoped>

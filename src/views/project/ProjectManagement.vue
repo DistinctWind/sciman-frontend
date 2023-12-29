@@ -25,8 +25,7 @@ onMounted(async () => {
 
 const router = useRouter()
 const showDetailOf = (project) => {
-  log(`/projectDetail?projectId=${project.projectId}`)
-  router.push(`/projectDetail?projectId=${project.projectId}`)
+  router.push(`/projectDetail/${project.projectId}`)
 }
 </script>
 
