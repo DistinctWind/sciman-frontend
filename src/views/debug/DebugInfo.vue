@@ -3,9 +3,9 @@
 import {coreInfo} from "@/store";
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import ProjectView from "@/components/project/ProjectView.vue";
 import {getProjectDetailViewOfProjectId} from "@/api/project/project";
 import {analysisResponse} from "@/utils/analysisResponse";
+import OrganizationView from "@/components/project/OrganizationView.vue";
 
 const {username, id, role} = coreInfo()
 
@@ -38,7 +38,7 @@ onMounted(async ()=>{
   const result = await getProjectDetailViewOfProjectId(1)
   const response = result.data
   analysisResponse(response)
-  projectDetailView.project = response.data.project
+  projectDetailView.clientOrganization = response.data.clientOrganization
   log(response)
 })
 </script>
@@ -51,7 +51,7 @@ onMounted(async ()=>{
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <ProjectView v-model="projectDetailView.project"/>
+    <OrganizationView v-model="projectDetailView.clientOrganization"/>
   </div>
 </template>
 
