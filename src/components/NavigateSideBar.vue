@@ -1,6 +1,7 @@
 <script setup>
 import {
-  House,
+  Grid,
+  House, InfoFilled,
   Menu as IconMenu, Search, User, UserFilled, View,
 } from '@element-plus/icons-vue'
 </script>
@@ -45,6 +46,16 @@ import {
           <el-icon><House /></el-icon>
           <span>场地管理</span>
         </el-menu-item>
+        <el-sub-menu index="5">
+          <template #title>
+            <el-icon><Grid /></el-icon>
+            <span>项目管理</span>
+          </template>
+          <el-menu-item index="5-1" @click="$router.push('/projectManagement')">
+            <el-icon><InfoFilled /></el-icon>
+            <span>项目详情</span>
+          </el-menu-item>
+        </el-sub-menu>
       </el-menu>
     </el-scrollbar>
   </div>
