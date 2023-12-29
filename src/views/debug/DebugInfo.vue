@@ -3,7 +3,7 @@
 import {coreInfo} from "@/store";
 import {ref, watch} from "vue";
 import log from "@/utils/debug";
-import OrientationDialog from "@/components/laboratory/OrientationDialog.vue";
+import ProjectView from "@/components/project/ProjectView.vue";
 
 const {username, id, role} = coreInfo()
 
@@ -18,8 +18,7 @@ const tableColumns = [
 ]
 
 const debugTarget = ref(true)
-const labId = ref(1)
-
+ref(1);
 watch(debugTarget, (newVal) => {
   log(`debug target changed to ${newVal}`)
 })
@@ -33,8 +32,7 @@ watch(debugTarget, (newVal) => {
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <OrientationDialog v-model="debugTarget"
-                       v-model:laboratory-id="labId"/>
+    <ProjectView/>
   </div>
 </template>
 
