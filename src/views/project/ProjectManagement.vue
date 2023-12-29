@@ -53,7 +53,7 @@ const showDetailOf = (project) => {
           <el-table-column prop="endDate" label="结束日期"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="showDetailOf(scope.row)">修改</el-button>
+              <el-button size="small" @click="showDetailOf(scope.row)">详情</el-button>
               <el-button size="small" type="danger" @click="deleteSecretaryOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
