@@ -9,6 +9,7 @@ const tableTotal = ref(0)
 const queryParam = reactive({
   page: 1,
   pageSize: 10,
+  projectNameFilter: '',
 })
 
 const query = async () => {
@@ -35,8 +36,8 @@ const showDetailOf = (project) => {
       <el-header>
         <el-row>
           <el-row>
-            <span style="margin-right: 10px">姓名</span>
-            <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
+            <span style="margin-right: 10px">项目名</span>
+            <el-input class="input" v-model="queryParam.projectNameFilter" @keyup.enter="query"/>
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
