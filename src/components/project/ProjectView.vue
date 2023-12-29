@@ -1,5 +1,7 @@
 <script setup>
 import {ref, watch} from "vue";
+import {Aim, Avatar, Calendar, Grid, Money} from "@element-plus/icons-vue";
+import {iconStyle} from "@/components/iconStyle";
 
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
@@ -26,11 +28,12 @@ watch(data, (newVal) => {
 <template>
   <div>
     <el-descriptions
-        column="1"
+        :column="1"
         border>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
+            <el-icon :style="iconStyle"><Grid /></el-icon>
             <span>项目编号</span>
           </div>
         </template>
@@ -39,6 +42,7 @@ watch(data, (newVal) => {
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
+            <el-icon :style="iconStyle"><Avatar /></el-icon>
             <span>负责人</span>
           </div>
         </template>
@@ -47,6 +51,7 @@ watch(data, (newVal) => {
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
+            <el-icon :style="iconStyle"><Menu /></el-icon>
             <span>项目名称</span>
           </div>
         </template>
@@ -55,6 +60,7 @@ watch(data, (newVal) => {
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
+            <el-icon :style="iconStyle"><Calendar /></el-icon>
             <span>开始日期</span>
           </div>
         </template>
@@ -63,6 +69,7 @@ watch(data, (newVal) => {
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
+            <el-icon :style="iconStyle"><Calendar /></el-icon>
             <span>结束日期</span>
           </div>
         </template>
@@ -71,6 +78,7 @@ watch(data, (newVal) => {
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
+            <el-icon :style="iconStyle"><Money /></el-icon>
             <span>预算（元）</span>
           </div>
         </template>
@@ -79,6 +87,7 @@ watch(data, (newVal) => {
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
+            <el-icon :style="iconStyle"><Aim /></el-icon>
             <span>委托方</span>
           </div>
         </template>
