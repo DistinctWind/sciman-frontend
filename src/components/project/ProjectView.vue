@@ -29,7 +29,11 @@ watch(data, (newVal) => {
   <div>
     <el-descriptions
         :column="1"
+        title="项目信息"
         border>
+      <template #extra>
+        <el-button type="primary" icon="el-icon-edit">编辑</el-button>
+      </template>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
