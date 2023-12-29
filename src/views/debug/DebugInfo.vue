@@ -1,9 +1,11 @@
 <script setup>
 
 import {coreInfo} from "@/store";
-import {ref, watch} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import ProjectView from "@/components/project/ProjectView.vue";
+import {getProjectDetailViewOfProjectId} from "@/api/project/project";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const {username, id, role} = coreInfo()
 
@@ -22,6 +24,23 @@ ref(1);
 watch(debugTarget, (newVal) => {
   log(`debug target changed to ${newVal}`)
 })
+
+const projectDetailView = reactive({
+  project: null,
+  projectAttendances: null,
+  subprojects: null,
+  clientOrganization: null,
+  coworkerOrganizations: null,
+  mainResearcher: null
+})
+
+onMounted(async ()=>{
+  const result = await getProjectDetailViewOfProjectId(1)
+  const response = result.data
+  analysisResponse(response)
+  projectDetailView.project = response.data.project
+  log(response)
+})
 </script>
 
 <template>
@@ -32,7 +51,7 @@ watch(debugTarget, (newVal) => {
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <ProjectView/>
+    <ProjectView v-model="projectDetailView.project"/>
   </div>
 </template>
 
