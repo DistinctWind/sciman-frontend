@@ -12,6 +12,7 @@ import SecretaryManage from "@/views/personal_management/SecretaryManage.vue";
 import StaffManage from "@/views/personal_management/StaffManage.vue";
 import VenueManagement from "@/views/venue/VenueManagement.vue";
 import ProjectManagement from "@/views/project/ProjectManagement.vue";
+import ProjectDetail from "@/views/project/ProjectDetail.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -27,6 +28,7 @@ const routes = [
             {path: '/staffManagement', component: StaffManage},
             {path: '/venueManagement', component: VenueManagement},
             {path: '/projectManagement', component: ProjectManagement},
+            {path: '/projectDetail', component: ProjectDetail}
         ],
         component: LayoutView,
         path: '/layout'

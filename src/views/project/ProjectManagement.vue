@@ -2,6 +2,7 @@
 import {onMounted, reactive, ref} from "vue";
 import {listProject} from "@/api/project/project";
 import log from "@/utils/debug";
+import {useRouter} from "vue-router";
 
 const tableData = ref([])
 const tableTotal = ref(0)
@@ -21,6 +22,12 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+const router = useRouter()
+const showDetailOf = (project) => {
+  log(`/projectDetail?projectId=${project.projectId}`)
+  router.push(`/projectDetail?projectId=${project.projectId}`)
+}
 </script>
 
 <template>
@@ -47,7 +54,7 @@ onMounted(async () => {
           <el-table-column prop="endDate" label="结束日期"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifySecretaryOf(scope.row)">修改</el-button>
+              <el-button size="small" @click="showDetailOf(scope.row)">修改</el-button>
               <el-button size="small" type="danger" @click="deleteSecretaryOf(scope.row)">删除</el-button>
             </template>
           </el-table-column>
