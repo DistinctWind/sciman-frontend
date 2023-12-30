@@ -24,7 +24,7 @@ watch(data, (newVal) => {
 </script>
 
 <template>
-  <div>
+  <div style="flex: 1">
     <el-descriptions
         border
         :column="3"
