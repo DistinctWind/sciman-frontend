@@ -3,7 +3,7 @@ import {ref, watch} from "vue";
 import {Aim, Avatar, Cellphone, ChatDotRound, Grid} from "@element-plus/icons-vue";
 import {iconStyle} from "@/components/iconStyle";
 
-const props = defineProps(['modelValue'])
+const props = defineProps(['modelValue', 'title'])
 const emit = defineEmits(['update:modelValue'])
 
 const data = ref({
@@ -27,7 +27,7 @@ watch(data, (newVal) => {
   <div>
     <el-descriptions
         :column="1"
-        title="项目委托方"
+        :title="props.title"
         border>
       <el-descriptions-item>
         <template #label>

@@ -51,7 +51,8 @@ onMounted(async ()=>{
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <OrganizationView v-model="projectDetailView.clientOrganization"/>
+    <OrganizationView v-model="projectDetailView.clientOrganization"
+    title="项目委托方"/>
   </div>
 </template>
 
