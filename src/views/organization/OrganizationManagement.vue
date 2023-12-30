@@ -10,7 +10,8 @@ const tableData = ref([])
 const tableTotal = ref(10)
 const queryParam = reactive({
   page: 1,
-  pageSize: 10
+  pageSize: 10,
+  nameFilter: ''
 })
 
 const query = async () => {
@@ -37,12 +38,8 @@ const queryOrganizationDetail = (organization) => {
     <el-header>
       <el-row>
         <el-row>
-          <span style="margin-right: 10px">姓名</span>
+          <span style="margin-right: 10px">组织名</span>
           <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
-        </el-row>
-        <el-row>
-          <span style="margin-right: 10px">实验室</span>
-          <el-input class="input" v-model="queryParam.laboratoryFilter" @keyup.enter="query"/>
         </el-row>
         <div class="query">
           <el-button type="primary" @click="query">查询</el-button>
@@ -76,5 +73,34 @@ const queryOrganizationDetail = (organization) => {
 </template>
 
 <style scoped>
+.input {
+  width: 250px;
+  align-self: flex-start;
+}
 
+.query {
+  align-self: flex-end;
+}
+
+.el-header .el-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.el-table {
+  margin-bottom: 20px;
+}
+
+.el-pagination {
+  margin-top: 20px;
+}
+
+.el-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 </style>
