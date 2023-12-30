@@ -2,7 +2,7 @@
 import {
   Grid,
   House, InfoFilled,
-  Menu as IconMenu, Search, User, UserFilled, View,
+  Menu as IconMenu, OfficeBuilding, Search, User, UserFilled, View,
 } from '@element-plus/icons-vue'
 </script>
 
@@ -54,6 +54,24 @@ import {
           <el-menu-item index="5-1" @click="$router.push('/projectManagement')">
             <el-icon><InfoFilled /></el-icon>
             <span>项目详情</span>
+          </el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="6">
+          <template #title>
+            <el-icon><OfficeBuilding /></el-icon>
+            <span>组织管理</span>
+          </template>
+          <el-menu-item index="6-1" @click="$router.push('/organizationManagement')">
+            <template #title>
+              <el-icon><InfoFilled /></el-icon>
+              <span>组织详情</span>
+            </template>
+          </el-menu-item>
+          <el-menu-item index="6-2" @click="$router.push('/organizationManagement')">
+            <template #title>
+              <el-icon><UserFilled /></el-icon>
+              <span>组织联系人</span>
+            </template>
           </el-menu-item>
         </el-sub-menu>
       </el-menu>
