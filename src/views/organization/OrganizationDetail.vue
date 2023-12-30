@@ -56,82 +56,99 @@ onMounted(async () => {
 </script>
 
 <template>
-<div style="flex: 1">
-  <el-descriptions
-      title="组织详情"
-      :column="1"
-      class="margin-bottom"
-    border>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle"><Grid /></el-icon>
-          <span>组织ID</span>
-        </div>
-      </template>
-      {{ data.id }}
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle"><Avatar /></el-icon>
-          <span>组织名称</span>
-        </div>
-      </template>
-      {{ data.organizationName }}
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle"><Menu /></el-icon>
-          <span>地址</span>
-        </div>
-      </template>
-      {{ data.address }}
-    </el-descriptions-item>
-  </el-descriptions>
-  <el-descriptions
-      :column="1"
-      title="负责人"
-      class="margin-bottom"
-    border>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle"><Aim /></el-icon>
-          <span>办公电话</span>
-        </div>
-      </template>
-      {{ data.principalContact.officePhoneNo }}
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle"><Cellphone /></el-icon>
-          <span>手机号</span>
-        </div>
-      </template>
-      {{ data.principalContact.mobilePhoneNo }}
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle"><ChatDotRound /></el-icon>
-          <span>邮箱</span>
-        </div>
-      </template>
-      {{ data.principalContact.emailAddress }}
-    </el-descriptions-item>
-  </el-descriptions>
-  <div class="margin-bottom">
-    <h3>次要联系人列表</h3>
-    <el-table :data="data.secondaryContacts" border>
-      <el-table-column label="办公电话" prop="officePhoneNo"></el-table-column>
-      <el-table-column label="手机号" prop="mobilePhoneNo"></el-table-column>
-      <el-table-column label="邮箱" prop="emailAddress"></el-table-column>
-    </el-table>
+  <div style="flex: 1">
+    <el-button
+        class="margin-bottom"
+        @click="$router.back()">
+      返回
+    </el-button>
+    <el-descriptions
+        title="组织详情"
+        :column="1"
+        class="margin-bottom"
+        border>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon :style="iconStyle">
+              <Grid/>
+            </el-icon>
+            <span>组织ID</span>
+          </div>
+        </template>
+        {{ data.id }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon :style="iconStyle">
+              <Avatar/>
+            </el-icon>
+            <span>组织名称</span>
+          </div>
+        </template>
+        {{ data.organizationName }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon :style="iconStyle">
+              <Menu/>
+            </el-icon>
+            <span>地址</span>
+          </div>
+        </template>
+        {{ data.address }}
+      </el-descriptions-item>
+    </el-descriptions>
+    <el-descriptions
+        :column="1"
+        title="负责人"
+        class="margin-bottom"
+        border>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon :style="iconStyle">
+              <Aim/>
+            </el-icon>
+            <span>办公电话</span>
+          </div>
+        </template>
+        {{ data.principalContact.officePhoneNo }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon :style="iconStyle">
+              <Cellphone/>
+            </el-icon>
+            <span>手机号</span>
+          </div>
+        </template>
+        {{ data.principalContact.mobilePhoneNo }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon :style="iconStyle">
+              <ChatDotRound/>
+            </el-icon>
+            <span>邮箱</span>
+          </div>
+        </template>
+        {{ data.principalContact.emailAddress }}
+      </el-descriptions-item>
+    </el-descriptions>
+    <div class="margin-bottom">
+      <h3>次要联系人列表</h3>
+      <el-table :data="data.secondaryContacts" border>
+        <el-table-column label="办公电话" prop="officePhoneNo"></el-table-column>
+        <el-table-column label="手机号" prop="mobilePhoneNo"></el-table-column>
+        <el-table-column label="邮箱" prop="emailAddress"></el-table-column>
+      </el-table>
+    </div>
   </div>
-</div>
 </template>
 
 <style scoped>
