@@ -6,6 +6,9 @@ import ProjectView from "@/components/project/ProjectView.vue";
 import OrganizationView from "@/components/project/OrganizationView.vue";
 import {getProjectDetailViewOfProjectId} from "@/api/project/project";
 import ResearcherView from "@/components/person/ResearcherView.vue";
+import SubprojectView from "@/components/project/SubprojectView.vue";
+import AttendanceView from "@/components/project/AttendanceView.vue";
+import CoworkerOrganizationView from "@/components/project/CoworkerOrganizationView.vue";
 
 const route = useRoute();
 const projectId = computed(() => route.params.projectId)
@@ -112,6 +115,18 @@ onMounted(async () => {
     <el-row>
       <ResearcherView v-model="projectDetailData.mainResearcher"
                       title="项目负责人"/>
+    </el-row>
+    <el-row>
+      <SubprojectView v-model="projectDetailData.subprojects"
+                      title="子项目"/>
+    </el-row>
+    <el-row>
+      <AttendanceView v-model="projectDetailData.projectAttendances"
+                      title="项目参与人员"/>
+    </el-row>
+    <el-row>
+      <CoworkerOrganizationView v-model="projectDetailData.coworkerOrganizations"
+                        title="项目合作方"/>
     </el-row>
   </div>
 </template>

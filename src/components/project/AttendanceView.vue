@@ -1,7 +1,7 @@
 <script setup>
 import {ref, watch} from "vue";
 
-const props = defineProps(['modelValue'])
+const props = defineProps(['modelValue', 'title'])
 const emit = defineEmits(['update:modelValue'])
 
 const data = ref([
@@ -23,7 +23,8 @@ watch(data, (newVal) => {
 </script>
 
 <template>
-<div>
+<div style="flex: 1">
+  <h3>{{props.title}}</h3>
 <el-table :data="data" border>
   <el-table-column prop="id" label="参与ID" width="180"></el-table-column>
   <el-table-column prop="researcherId" label="工号" width="180"></el-table-column>
