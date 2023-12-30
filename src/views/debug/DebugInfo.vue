@@ -1,9 +1,11 @@
 <script setup>
 
 import {coreInfo} from "@/store";
-import {ref, watch} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import OrientationDialog from "@/components/laboratory/OrientationDialog.vue";
+import {getProjectDetailViewOfProjectId} from "@/api/project/project";
+import {analysisResponse} from "@/utils/analysisResponse";
+import CoworkerOrganizationView from "@/components/project/CoworkerOrganizationView.vue";
 
 const {username, id, role} = coreInfo()
 
@@ -18,10 +20,29 @@ const tableColumns = [
 ]
 
 const debugTarget = ref(true)
-const labId = ref(1)
-
+ref(1);
 watch(debugTarget, (newVal) => {
   log(`debug target changed to ${newVal}`)
+})
+
+const projectDetailView = reactive({
+  project: null,
+  projectAttendances: null,
+  subprojects: null,
+  clientOrganization: null,
+  coworkerOrganizations: null,
+  mainResearcher: null
+})
+
+onMounted(async () => {
+  const result = await getProjectDetailViewOfProjectId(1)
+  const response = result.data
+  analysisResponse(response)
+  const keys = Object.keys(projectDetailView)
+  keys.forEach(key => {
+    projectDetailView[key] = response.data[key]
+  })
+  log(projectDetailView)
 })
 </script>
 
@@ -33,8 +54,7 @@ watch(debugTarget, (newVal) => {
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <OrientationDialog v-model="debugTarget"
-                       v-model:laboratory-id="labId"/>
+    <coworker-organization-view v-model="projectDetailView.coworkerOrganizations"/>
   </div>
 </template>
 

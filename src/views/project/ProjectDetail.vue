@@ -1,21 +1,133 @@
 <script setup>
 import {useRoute} from "vue-router";
-import {computed, onMounted} from "vue";
+import {computed, onMounted, reactive} from "vue";
 import log from "@/utils/debug";
+import ProjectView from "@/components/project/ProjectView.vue";
+import OrganizationView from "@/components/project/OrganizationView.vue";
+import {getProjectDetailViewOfProjectId} from "@/api/project/project";
+import ResearcherView from "@/components/person/ResearcherView.vue";
+import SubprojectView from "@/components/project/SubprojectView.vue";
+import AttendanceView from "@/components/project/AttendanceView.vue";
+import CoworkerOrganizationView from "@/components/project/CoworkerOrganizationView.vue";
 
 const route = useRoute();
 const projectId = computed(() => route.params.projectId)
+const projectDetailData = reactive({
+  project: {
+    projectId: 0,
+    mainResearcherName: "",
+    name: "",
+    beginDate: "",
+    endDate: "",
+    budget: 0,
+    clientOrganizationName: ""
+  },
+  projectAttendances: [
+    {
+      id: 0,
+      researcherId: 0,
+      researcherName: "",
+      projectName: ""
+    },
+  ],
+  subprojects: [
+    {
+      id: 0,
+      projectName: "",
+      principalResearcherName: "",
+      dueDate: "",
+      budget: 0,
+      techDescription: ""
+    },
+  ],
+  clientOrganization: {
+    id: 0,
+    organizationName: "",
+    address: "",
+    principalContact: {
+      id: 0,
+      officePhoneNo: "",
+      mobilePhoneNo: "",
+      emailAddress: ""
+    },
+    secondaryContacts: [
+      {
+        id: 0,
+        officePhoneNo: "",
+        mobilePhoneNo: "",
+        emailAddress: ""
+      },
+    ]
+  },
+  coworkerOrganizations: [
+    {
+      id: 0,
+      organizationName: "",
+      address: "",
+      principalContact: {
+        id: 0,
+        officePhoneNo: "",
+        mobilePhoneNo: "",
+        emailAddress: ""
+      },
+      secondaryContacts: [
+        {
+          id: 0,
+          officePhoneNo: "",
+          mobilePhoneNo: "",
+          emailAddress: ""
+        },
+      ]
+    }
+  ],
+  mainResearcher: {
+    employeeId: 0,
+    laboratoryName: "",
+    name: "",
+    gender: 0,
+    age: 0
+  }
+})
 
-onMounted(() => {
-  log(route.params.projectId);
-  // projectId.value = route.params.projectId
+onMounted(async () => {
+  const result = await getProjectDetailViewOfProjectId(projectId.value)
+  const response = result.data
+  log(response)
+  const keys = Object.keys(projectDetailData)
+  keys.forEach(key => {
+    projectDetailData[key] = response.data[key]
+  })
 });
 </script>
 
 <template>
   <div>
-    <h1>Project Detail</h1>
-    <p>{{ projectId }}</p>
+    <el-row :gutter="10" align="bottom" style="margin-bottom: 10px">
+      <el-col :span="12">
+        <ProjectView v-model="projectDetailData.project"/>
+      </el-col>
+      <el-col :span="12">
+        <OrganizationView v-model="projectDetailData.clientOrganization"
+                          title="项目委托方"/>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <ResearcherView v-model="projectDetailData.mainResearcher"
+                      title="项目负责人"/>
+    </el-row>
+    <el-row>
+      <SubprojectView v-model="projectDetailData.subprojects"
+                      title="子项目"/>
+    </el-row>
+    <el-row>
+      <AttendanceView v-model="projectDetailData.projectAttendances"
+                      title="项目参与人员"/>
+    </el-row>
+    <el-row>
+      <CoworkerOrganizationView v-model="projectDetailData.coworkerOrganizations"
+                        title="项目合作方"/>
+    </el-row>
   </div>
 </template>
 
