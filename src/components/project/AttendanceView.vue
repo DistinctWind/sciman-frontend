@@ -1,7 +1,7 @@
 <script setup>
 import {ref, watch} from "vue";
 
-const props = defineProps(['modelValue', 'title'])
+const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
 
 const data = ref([
