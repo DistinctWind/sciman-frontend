@@ -5,7 +5,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import {getProjectDetailViewOfProjectId} from "@/api/project/project";
 import {analysisResponse} from "@/utils/analysisResponse";
-import OrganizationView from "@/components/project/OrganizationView.vue";
+import ResearcherView from "@/components/person/ResearcherView.vue";
 
 const {username, id, role} = coreInfo()
 
@@ -38,8 +38,11 @@ onMounted(async ()=>{
   const result = await getProjectDetailViewOfProjectId(1)
   const response = result.data
   analysisResponse(response)
-  projectDetailView.clientOrganization = response.data.clientOrganization
-  log(response)
+  const keys = Object.keys(projectDetailView)
+  keys.forEach(key => {
+    projectDetailView[key] = response.data[key]
+  })
+  log(projectDetailView)
 })
 </script>
 
@@ -51,8 +54,7 @@ onMounted(async ()=>{
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <OrganizationView v-model="projectDetailView.clientOrganization"
-    title="项目委托方"/>
+    <ResearcherView v-model="projectDetailView.mainResearcher" title="负责人"/>
   </div>
 </template>
 
