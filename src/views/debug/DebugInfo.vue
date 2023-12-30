@@ -5,7 +5,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import {getProjectDetailViewOfProjectId} from "@/api/project/project";
 import {analysisResponse} from "@/utils/analysisResponse";
-import SubprojectView from "@/components/project/SubprojectView.vue";
+import CoworkerOrganizationView from "@/components/project/CoworkerOrganizationView.vue";
 
 const {username, id, role} = coreInfo()
 
@@ -54,7 +54,7 @@ onMounted(async () => {
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <subproject-view v-model="projectDetailView.subprojects"/>
+    <coworker-organization-view v-model="projectDetailView.coworkerOrganizations"/>
   </div>
 </template>
 
