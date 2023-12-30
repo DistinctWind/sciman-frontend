@@ -5,7 +5,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import {getProjectDetailViewOfProjectId} from "@/api/project/project";
 import {analysisResponse} from "@/utils/analysisResponse";
-import ResearcherView from "@/components/person/ResearcherView.vue";
+import AttendanceView from "@/components/project/AttendanceView.vue";
 
 const {username, id, role} = coreInfo()
 
@@ -34,7 +34,7 @@ const projectDetailView = reactive({
   mainResearcher: null
 })
 
-onMounted(async ()=>{
+onMounted(async () => {
   const result = await getProjectDetailViewOfProjectId(1)
   const response = result.data
   analysisResponse(response)
@@ -54,7 +54,7 @@ onMounted(async ()=>{
                        :prop="column.prop"
                        :label="column.label"/>
     </el-table>
-    <ResearcherView v-model="projectDetailView.mainResearcher" title="负责人"/>
+    <AttendanceView v-model="projectDetailView.projectAttendances" title="参与人员"/>
   </div>
 </template>
 
