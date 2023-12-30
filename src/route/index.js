@@ -13,6 +13,7 @@ import StaffManage from "@/views/personal_management/StaffManage.vue";
 import VenueManagement from "@/views/venue/VenueManagement.vue";
 import ProjectManagement from "@/views/project/ProjectManagement.vue";
 import ProjectDetail from "@/views/project/ProjectDetail.vue";
+import OrganizationView from "@/views/organization/OrganizationDetail.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -29,6 +30,7 @@ const routes = [
             {path: '/venueManagement', component: VenueManagement},
             {path: '/projectManagement', component: ProjectManagement},
             {path: '/projectDetail/:projectId', component: ProjectDetail, props: true},
+            {path: '/organizationDetail/:organizationId', component: OrganizationView, props: true},
         ],
         component: LayoutView,
         path: '/layout'
