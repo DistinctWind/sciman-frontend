@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import {getContactDetail, getContactList} from "@/api/contact/contact";
+import {getContactDetail, getContactList, modifyContact} from "@/api/contact/contact";
 import OrganizationSelection from "@/components/select/OrganizationSelection.vue";
 
 const tableData = ref([])
@@ -50,9 +50,8 @@ const modify = async (contact) => {
 }
 
 const confirm = async () => {
-  log(dialogData)
   dataDialogVisible.value = false
-
+  await modifyContact(dialogData)
   await query()
 }
 

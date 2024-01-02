@@ -7,3 +7,7 @@ export const getContactList = (queryParam) => {
 export const getContactDetail = (id) => {
     return request.get(`/contact/${id}`)
 }
+
+export const modifyContact = (contact) => {
+    return request.put('/contact/modify', contact)
+}
