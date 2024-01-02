@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import {getContactDetail, getContactList, modifyContact} from "@/api/contact/contact";
+import {deleteContact, getContactDetail, getContactList, modifyContact} from "@/api/contact/contact";
 import OrganizationSelection from "@/components/select/OrganizationSelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 
@@ -58,6 +58,13 @@ const confirm = async () => {
   await query()
 }
 
+const del = async (contact) => {
+  const result = await deleteContact(contact.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
 </script>
 
 <template>
@@ -83,6 +90,7 @@ const confirm = async () => {
           <el-table-column label="操作">
             <template #default="scope">
               <el-button size="small" @click="modify(scope.row)">修改</el-button>
+              <el-button size="small" type="danger" @click="del(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
