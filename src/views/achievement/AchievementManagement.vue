@@ -8,6 +8,8 @@ const tableTotal = ref(10)
 const queryParam = reactive({
   page: 1,
   pageSize: 10,
+  nameFilter: '',
+  projectId: 0,
 })
 
 const query = async () => {
@@ -30,7 +32,12 @@ onMounted(async () => {
       <el-header>
         <el-row>
           <el-row>
-            <span style="margin-right: 10px">组织</span>
+            <span style="margin-right: 10px">成果名</span>
+            <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
+          </el-row>
+          <el-row>
+            <span style="margin-right: 10px">项目</span>
+            <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
@@ -76,5 +83,34 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.input {
+  width: 250px;
+  align-self: flex-start;
+}
 
+.query {
+  align-self: flex-end;
+}
+
+.el-header .el-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.el-table {
+  margin-bottom: 20px;
+}
+
+.el-pagination {
+  margin-top: 20px;
+}
+
+.el-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 </style>
