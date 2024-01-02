@@ -1,7 +1,8 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import {listContribution} from "@/api/achievement/contribution";
 import log from "@/utils/debug";
+import AchievementSelection from "@/components/select/AchievementSelection.vue";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -22,6 +23,10 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+watch(() => queryParam.achievementId, async () => {
+  await query()
+})
 </script>
 
 <template>
@@ -30,8 +35,8 @@ onMounted(async () => {
       <el-header>
         <el-row>
           <el-row>
-            <span style="margin-right: 10px">成果名</span>
-            <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
+            <span style="margin-right: 10px">成果</span>
+            <AchievementSelection v-model="queryParam.achievementId" :nullable="true"/>
           </el-row>
           <el-row>
             <span style="margin-right: 10px">项目</span>
