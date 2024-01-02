@@ -11,3 +11,7 @@ export const getContactDetail = (id) => {
 export const modifyContact = (contact) => {
     return request.put('/contact/modify', contact)
 }
+
+export const deleteContact = (contactId) => {
+    return request.delete(`/contact/delete/${contactId}`)
+}
