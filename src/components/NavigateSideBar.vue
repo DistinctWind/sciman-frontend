@@ -1,6 +1,6 @@
 <script setup>
 import {
-  Grid,
+  Grid, HotWater,
   House, InfoFilled,
   Menu as IconMenu, OfficeBuilding, Search, User, UserFilled, View,
 } from '@element-plus/icons-vue'
@@ -71,6 +71,18 @@ import {
             <template #title>
               <el-icon><UserFilled /></el-icon>
               <span>组织联系人</span>
+            </template>
+          </el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="7">
+          <template #title>
+            <el-icon><HotWater /></el-icon>
+            <span>科研成果管理</span>
+          </template>
+          <el-menu-item index="7-1" @click="$router.push('/achievementManagement')">
+            <template #title>
+              <el-icon><InfoFilled /></el-icon>
+              <span>科研成果详情</span>
             </template>
           </el-menu-item>
         </el-sub-menu>
