@@ -15,3 +15,7 @@ export const modifyContact = (contact) => {
 export const deleteContact = (contactId) => {
     return request.delete(`/contact/delete/${contactId}`)
 }
+
+export const insertContactByOrgId = (contact, orgId) => {
+    return request.post(`/contact/add/${orgId}`, contact)
+}

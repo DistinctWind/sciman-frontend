@@ -1,7 +1,13 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import {deleteContact, getContactDetail, getContactList, modifyContact} from "@/api/contact/contact";
+import {
+  deleteContact,
+  getContactDetail,
+  getContactList,
+  insertContactByOrgId,
+  modifyContact
+} from "@/api/contact/contact";
 import OrganizationSelection from "@/components/select/OrganizationSelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 
@@ -52,7 +58,12 @@ const modify = async (contact) => {
 
 const confirm = async () => {
   dataDialogVisible.value = false
-  const result = await modifyContact(dialogData)
+  let result = null
+  if (idVisible.value){
+    result = await modifyContact(dialogData)
+  } else {
+    result = await insertContactByOrgId(dialogData, queryParam.organizationId)
+  }
   const response = result.data
   analysisResponse(response)
   await query()
@@ -63,6 +74,15 @@ const del = async (contact) => {
   const response = result.data
   analysisResponse(response)
   await query()
+}
+
+const insert = async () => {
+  dataDialogVisible.value = true
+  idVisible.value = false
+  const keys = Object.keys(dialogData)
+  keys.forEach(key => {
+    dialogData[key] = ''
+  })
 }
 
 </script>
@@ -78,6 +98,7 @@ const del = async (contact) => {
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="success" @click="insert">插入</el-button>
           </div>
         </el-row>
       </el-header>
