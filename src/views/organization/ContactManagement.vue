@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import {getContactList} from "@/api/contact/contact";
+import {getContactDetail, getContactList} from "@/api/contact/contact";
 import OrganizationSelection from "@/components/select/OrganizationSelection.vue";
 
 const tableData = ref([])
@@ -27,6 +27,35 @@ onMounted(async () => {
 watch(() => queryParam.organizationId, async () => {
   await query()
 })
+
+const dataDialogVisible = ref(false)
+const dialogData = reactive({
+  id: 0,
+  officePhoneNo: '',
+  mobilePhoneNo: '',
+  emailAddress: '',
+})
+const idVisible = ref(true)
+
+const modify = async (contact) => {
+  dataDialogVisible.value = true
+  idVisible.value = true
+  const initialData = (await getContactDetail(contact.id)).data.data
+  const updateKeys = Object.keys(initialData)
+  updateKeys.forEach(key => {
+    if (dialogData[key] !== undefined){
+      dialogData[key] = initialData[key]
+    }
+  })
+}
+
+const confirm = async () => {
+  log(dialogData)
+  dataDialogVisible.value = false
+
+  await query()
+}
+
 </script>
 
 <template>
@@ -51,7 +80,7 @@ watch(() => queryParam.organizationId, async () => {
           <el-table-column prop="emailAddress" label="邮件地址"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modifyStaffOf(scope.row)">修改</el-button>
+              <el-button size="small" @click="modify(scope.row)">修改</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -66,6 +95,28 @@ watch(() => queryParam.organizationId, async () => {
         />
       </el-main>
     </el-container>
+    <el-dialog v-model="dataDialogVisible">
+      <el-form :model="dialogData" label-width="100">
+        <el-form-item v-if="idVisible" label="ID">
+          <el-input v-model="dialogData.id" disabled/>
+        </el-form-item>
+        <el-form-item label="办公电话">
+          <el-input v-model="dialogData.officePhoneNo"/>
+        </el-form-item>
+        <el-form-item label="移动电话">
+          <el-input v-model="dialogData.mobilePhoneNo"/>
+        </el-form-item>
+        <el-form-item label="邮件地址">
+          <el-input v-model="dialogData.emailAddress"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dataDialogVisible=false">取消</el-button>
+          <el-button type="primary" @click="confirm">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
