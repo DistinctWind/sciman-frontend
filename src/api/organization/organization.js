@@ -7,3 +7,7 @@ export const getOrganizationViewById = (organizationId) => {
 export const listOrganization = (queryParam) => {
     return request.post('/organization/list', queryParam)
 }
+
+export const listAllOrganizationName = () => {
+    return request.get('/organization/listAll')
+}

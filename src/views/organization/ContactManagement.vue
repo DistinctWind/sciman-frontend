@@ -1,7 +1,8 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import {getContactList} from "@/api/contact/contact";
+import OrganizationSelection from "@/components/select/OrganizationSelection.vue";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -22,6 +23,10 @@ const query = async () => {
 onMounted(async () => {
   await query()
 })
+
+watch(() => queryParam.organizationId, async () => {
+  await query()
+})
 </script>
 
 <template>
@@ -30,7 +35,8 @@ onMounted(async () => {
       <el-header>
         <el-row>
           <el-row>
-            <el-input class="input" v-model="queryParam.organizationId" @keyup.enter="query"/>
+            <span style="margin-right: 10px">组织</span>
+            <OrganizationSelection class="input" v-model="queryParam.organizationId"/>
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
