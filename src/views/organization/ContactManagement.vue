@@ -3,6 +3,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import {getContactDetail, getContactList, modifyContact} from "@/api/contact/contact";
 import OrganizationSelection from "@/components/select/OrganizationSelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -51,7 +52,9 @@ const modify = async (contact) => {
 
 const confirm = async () => {
   dataDialogVisible.value = false
-  await modifyContact(dialogData)
+  const result = await modifyContact(dialogData)
+  const response = result.data
+  analysisResponse(response)
   await query()
 }
 
