@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import {getAchievementList} from "@/api/achievement/achievement";
 import ProjectSelection from "@/components/select/ProjectSelection.vue";
@@ -25,6 +25,10 @@ onMounted(async () => {
   await query()
 })
 
+watch(() => queryParam.projectId, async () => {
+  await query()
+})
+
 </script>
 
 <template>
@@ -38,7 +42,7 @@ onMounted(async () => {
           </el-row>
           <el-row>
             <span style="margin-right: 10px">项目</span>
-            <ProjectSelection v-model="queryParam.projectId"/>
+            <ProjectSelection v-model="queryParam.projectId" :nullable="true"/>
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
