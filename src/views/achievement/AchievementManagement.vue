@@ -2,6 +2,7 @@
 import {onMounted, reactive, ref} from "vue";
 import log from "@/utils/debug";
 import {getAchievementList} from "@/api/achievement/achievement";
+import ProjectSelection from "@/components/select/ProjectSelection.vue";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -37,7 +38,7 @@ onMounted(async () => {
           </el-row>
           <el-row>
             <span style="margin-right: 10px">项目</span>
-            <el-input class="input" v-model="queryParam.nameFilter" @keyup.enter="query"/>
+            <ProjectSelection v-model="queryParam.projectId"/>
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
