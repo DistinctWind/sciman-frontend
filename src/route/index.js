@@ -15,6 +15,7 @@ import ProjectManagement from "@/views/project/ProjectManagement.vue";
 import ProjectDetail from "@/views/project/ProjectDetail.vue";
 import OrganizationView from "@/views/organization/OrganizationDetail.vue";
 import OrganizationManagement from "@/views/organization/OrganizationManagement.vue";
+import ContactManagement from "@/views/organization/ContactManagement.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -33,6 +34,7 @@ const routes = [
             {path: '/projectDetail/:projectId', component: ProjectDetail, props: true},
             {path: '/organizationManagement', component: OrganizationManagement},
             {path: '/organizationDetail/:organizationId', component: OrganizationView, props: true},
+            {path: '/contactManagement', component: ContactManagement},
         ],
         component: LayoutView,
         path: '/layout'

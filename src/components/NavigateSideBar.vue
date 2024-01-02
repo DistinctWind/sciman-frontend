@@ -67,7 +67,7 @@ import {
               <span>组织详情</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="6-2" @click="$router.push('/organizationManagement')">
+          <el-menu-item index="6-2" @click="$router.push('/contactManagement')">
             <template #title>
               <el-icon><UserFilled /></el-icon>
               <span>组织联系人</span>
