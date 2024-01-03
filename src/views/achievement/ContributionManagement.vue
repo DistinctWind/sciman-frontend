@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
-import {listContribution} from "@/api/achievement/contribution";
+import {deleteContribution, listContribution} from "@/api/achievement/contribution";
 import log from "@/utils/debug";
 import AchievementSelection from "@/components/select/AchievementSelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -27,6 +28,13 @@ onMounted(async () => {
 watch(() => queryParam.achievementId, async () => {
   await query()
 })
+
+const del = async (contribution) => {
+  const result = await deleteContribution(contribution.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
 </script>
 
 <template>
@@ -51,7 +59,6 @@ watch(() => queryParam.achievementId, async () => {
           <el-table-column prop="researcherName" label="参与人员"/>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button size="small" @click="modify(scope.row)">修改</el-button>
               <el-button size="small" type="danger" @click="del(scope.row)">删除</el-button>
             </template>
           </el-table-column>
