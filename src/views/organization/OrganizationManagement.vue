@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {listOrganization} from "@/api/organization/organization";
+import {deleteOrganization, listOrganization} from "@/api/organization/organization";
 import log from "@/utils/debug";
 import {useRouter} from "vue-router";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const router = useRouter()
 
@@ -30,6 +31,22 @@ const queryOrganizationDetail = (organization) => {
   log(`querying organization detail of ${organization.id}`)
   router.push(`/organizationDetail/${organization.id}`)
 }
+
+const removeWarningDialogVisible = ref(false)
+const removingOrganization = ref(null)
+const removeButtonClicked = (organization) => {
+  removingOrganization.value = organization
+  removeWarningDialogVisible.value = true
+}
+const removeConfirm = async () => {
+  const organization = removingOrganization.value
+  log(`removing organization ${organization.id}`)
+  const result = await deleteOrganization(organization.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+  removeWarningDialogVisible.value = false
+}
 </script>
 
 <template>
@@ -55,6 +72,7 @@ const queryOrganizationDetail = (organization) => {
         <el-table-column label="操作">
           <template #default="scope">
             <el-button size="small" @click="queryOrganizationDetail(scope.row)">详情</el-button>
+            <el-button size="small" type="danger" @click="removeButtonClicked(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -69,6 +87,13 @@ const queryOrganizationDetail = (organization) => {
       />
     </el-main>
   </el-container>
+  <el-dialog v-model="removeWarningDialogVisible">
+    <span>这会删除组织和所有的联系人，确定删除该组织吗？</span>
+    <template #footer>
+      <el-button @click="removeWarningDialogVisible = false">取消</el-button>
+      <el-button type="danger" @click="removeConfirm">确定</el-button>
+    </template>
+  </el-dialog>
 </div>
 </template>
 

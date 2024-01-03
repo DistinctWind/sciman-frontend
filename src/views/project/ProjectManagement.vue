@@ -3,6 +3,7 @@ import {onMounted, reactive, ref} from "vue";
 import {listProject} from "@/api/project/project";
 import log from "@/utils/debug";
 import {useRouter} from "vue-router";
+import {notImplemented} from "@/utils/implementattion";
 
 const tableData = ref([])
 const tableTotal = ref(0)
@@ -46,7 +47,7 @@ const showDetailOf = (project) => {
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
-            <el-button type="success" @click="insert">新增</el-button>
+            <el-button type="success" @click="notImplemented">新增</el-button>
           </div>
         </el-row>
       </el-header>
@@ -60,7 +61,7 @@ const showDetailOf = (project) => {
           <el-table-column label="操作">
             <template #default="scope">
               <el-button size="small" @click="showDetailOf(scope.row)">详情</el-button>
-              <el-button size="small" type="danger" @click="deleteSecretaryOf(scope.row)">删除</el-button>
+              <el-button size="small" type="danger" @click="notImplemented">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

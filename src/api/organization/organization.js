@@ -19,3 +19,7 @@ export const modifyOrganizationPrincipleContact = (orgId, contact) => {
 export const modifyOrganizationDetailData = (organization) => {
     return request.put('/organization/update/organization', organization)
 }
+
+export const deleteOrganization = (organizationId) => {
+    return request.delete(`/organization/delete/${organizationId}`)
+}
