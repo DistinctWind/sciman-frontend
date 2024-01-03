@@ -2,6 +2,7 @@
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
 import {
+  addAchievement,
   deleteAchievement,
   getAchievementDetail,
   getAchievementList,
@@ -9,6 +10,7 @@ import {
 } from "@/api/achievement/achievement";
 import ProjectSelection from "@/components/select/ProjectSelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
+import {getToday} from "@/utils/date";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -63,6 +65,26 @@ const modifyDialogConfirm = async () => {
 
 const del = async (achievement) => {
   const result = await deleteAchievement(achievement.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
+const insertDialogVisible = ref(false)
+const insertDialogData = reactive({
+  name: '',
+  projectId: 1,
+  achieveDate: getToday(),
+  rankingFactor: 0,
+  classification: 1
+})
+const insert = () => {
+  insertDialogVisible.value = true
+}
+
+const insertDialogConfirm = async () => {
+  insertDialogVisible.value = false
+  const result = await addAchievement(insertDialogData)
   const response = result.data
   analysisResponse(response)
   await query()
@@ -148,6 +170,37 @@ const del = async (achievement) => {
       <template #footer>
         <el-button type="primary" @click="modifyDialogVisible = false">取消</el-button>
         <el-button type="success" @click="modifyDialogConfirm">确定</el-button>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="insertDialogVisible">
+      <el-form>
+        <el-form-item label="成果名">
+          <el-input v-model="insertDialogData.name"/>
+        </el-form-item>
+        <el-form-item label="项目">
+          <ProjectSelection v-model="insertDialogData.projectId" :nullable="false"/>
+        </el-form-item>
+        <el-form-item label="达成时间">
+          <el-date-picker v-model="insertDialogData.achieveDate"
+                          value-format="YYYY-MM-DD"
+                          type="date" placeholder="选择日期"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="排名">
+          <el-input-number v-model="insertDialogData.rankingFactor" :min="0" :max="1" :step="0.01"/>
+        </el-form-item>
+        <el-form-item label="分类">
+          <el-radio-group v-model="insertDialogData.classification">
+            <el-radio :label="1">发明专利</el-radio>
+            <el-radio :label="2">实用新型专利</el-radio>
+            <el-radio :label="3">外观专利</el-radio>
+            <el-radio :label="4">论文</el-radio>
+            <el-radio :label="5">软件著作权</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="insertDialogVisible = false">取消</el-button>
+        <el-button type="success" @click="insertDialogConfirm">确定</el-button>
       </template>
     </el-dialog>
   </div>
