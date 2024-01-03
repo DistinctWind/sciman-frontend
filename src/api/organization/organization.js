@@ -23,3 +23,7 @@ export const modifyOrganizationDetailData = (organization) => {
 export const deleteOrganization = (organizationId) => {
     return request.delete(`/organization/delete/${organizationId}`)
 }
+
+export const addOrganization = (organization) => {
+    return request.put('/organization/add', organization)
+}
