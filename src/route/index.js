@@ -17,6 +17,7 @@ import OrganizationView from "@/views/organization/OrganizationDetail.vue";
 import OrganizationManagement from "@/views/organization/OrganizationManagement.vue";
 import ContactManagement from "@/views/organization/ContactManagement.vue";
 import AchievementManagement from "@/views/achievement/AchievementManagement.vue";
+import contributionManagement from "@/views/achievement/ContributionManagement.vue";
 
 const routes = [
     {path: '/', component: HelloWorld},
@@ -36,7 +37,8 @@ const routes = [
             {path: '/organizationManagement', component: OrganizationManagement},
             {path: '/organizationDetail/:organizationId', component: OrganizationView, props: true},
             {path: '/contactManagement', component: ContactManagement},
-            {path: '/achievementManagement', component: AchievementManagement}
+            {path: '/achievementManagement', component: AchievementManagement},
+            {path: '/contributionManagement', component: contributionManagement}
         ],
         component: LayoutView,
         path: '/layout'

@@ -1,5 +1,6 @@
 <script setup>
 import {
+  ColdDrink,
   Grid, HotWater,
   House, InfoFilled,
   Menu as IconMenu, OfficeBuilding, Search, User, UserFilled, View,
@@ -83,6 +84,12 @@ import {
             <template #title>
               <el-icon><InfoFilled /></el-icon>
               <span>科研成果详情</span>
+            </template>
+          </el-menu-item>
+          <el-menu-item index="7-2" @click="$router.push('/contributionManagement')">
+            <template #title>
+              <el-icon><ColdDrink /></el-icon>
+              <span>科研成果贡献</span>
             </template>
           </el-menu-item>
         </el-sub-menu>
