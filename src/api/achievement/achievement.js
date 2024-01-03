@@ -19,3 +19,7 @@ export const modifyAchievement = (achievement) => {
 export const deleteAchievement = (id) => {
     return request.delete(`/achievement/delete/${id}`)
 }
+
+export const addAchievement = (achievement) => {
+    return request.put('/achievement/add', achievement)
+}
