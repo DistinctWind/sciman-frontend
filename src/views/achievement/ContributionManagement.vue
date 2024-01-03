@@ -98,7 +98,8 @@ const insertConfirm = async () => {
           <AchievementSelection v-model="insertAchievementId" :nullable="false"/>
         </el-form-item>
         <el-form-item label="参与人员">
-          <ResearcherSelection v-model="insertResearcherId"/>
+          <ResearcherSelection v-model="insertResearcherId"
+            v-model:achievement-id="insertAchievementId"/>
         </el-form-item>
       </el-form>
       <template #footer>
