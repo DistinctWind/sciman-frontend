@@ -7,6 +7,7 @@ import {
 } from '@element-plus/icons-vue'
 import {useStore} from "vuex";
 import {computed} from "vue";
+import {notImplemented} from "@/utils/implementattion";
 
 const store = useStore()
 const role = computed(() => store.state.role)
@@ -61,6 +62,18 @@ const isAdmin = computed(() => role.value === 'admin')
           <el-menu-item index="5-1" @click="$router.push('/projectManagement')">
             <el-icon><InfoFilled /></el-icon>
             <span>项目详情</span>
+          </el-menu-item>
+          <el-menu-item index="5-2" @click="notImplemented">
+            <el-icon><ColdDrink /></el-icon>
+            <span>子项目管理</span>
+          </el-menu-item>
+          <el-menu-item index="5-3" @click="notImplemented">
+            <el-icon><ColdDrink /></el-icon>
+            <span>项目参与人员</span>
+          </el-menu-item>
+          <el-menu-item index="5-4" @click="notImplemented">
+            <el-icon><ColdDrink /></el-icon>
+            <span>项目合作方管理</span>
           </el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="6">
