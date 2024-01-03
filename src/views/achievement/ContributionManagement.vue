@@ -38,9 +38,6 @@ watch(() => queryParam.achievementId, async () => {
             <span style="margin-right: 10px">成果</span>
             <AchievementSelection v-model="queryParam.achievementId" :nullable="true"/>
           </el-row>
-          <el-row>
-            <span style="margin-right: 10px">项目</span>
-          </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
             <el-button type="success" @click="insert">插入</el-button>
