@@ -1,58 +1,92 @@
 <script setup>
 import {useRoute} from "vue-router";
-import {computed, onMounted, reactive} from "vue";
-import {getOrganizationViewById} from "@/api/organization/organization";
+import {computed, onMounted, reactive, ref} from "vue";
+import {
+  getOrganizationViewById,
+  modifyOrganizationDetailData,
+  modifyOrganizationPrincipleContact
+} from "@/api/organization/organization";
 import {iconStyle} from "@/components/iconStyle";
 import {Aim, Avatar, Cellphone, ChatDotRound, Grid} from "@element-plus/icons-vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const route = useRoute()
 const organizationId = computed(() => route.params.organizationId)
 const data = reactive({
   id: 1,
-  organizationName: "鸿蒙科技有限公司",
-  address: "北京市海淀区中关村大街1号",
+  organizationName: "",
+  address: "",
   principalContact: {
     id: 1,
-    officePhoneNo: "812345678",
-    mobilePhoneNo: "13987654321",
-    emailAddress: "john.doe@example.com"
+    officePhoneNo: "",
+    mobilePhoneNo: "",
+    emailAddress: ""
   },
   secondaryContacts: [
     {
       id: 2,
-      officePhoneNo: "823456789",
-      mobilePhoneNo: "18876543210",
-      emailAddress: "jane.smith@example.com"
-    },
-    {
-      id: 4,
-      officePhoneNo: "845678901",
-      mobilePhoneNo: "16543210983",
-      emailAddress: "mary.wilson@example.com"
-    },
-    {
-      id: 7,
-      officePhoneNo: "878901234",
-      mobilePhoneNo: "13210987656",
-      emailAddress: "michael.brown@example.com"
-    },
-    {
-      id: 10,
-      officePhoneNo: "801234567",
-      mobilePhoneNo: "19876543219",
-      emailAddress: "emily.chen@example.com"
+      officePhoneNo: "",
+      mobilePhoneNo: "",
+      emailAddress: ""
     }
   ]
 })
 
-onMounted(async () => {
+const query = async () => {
   const result = await getOrganizationViewById(organizationId.value)
   const response = result.data
   const keys = Object.keys(data)
   keys.forEach(key => {
     data[key] = response.data[key]
   })
+}
+
+onMounted(async () => {
+  await query()
 })
+
+const principleContactModifyDialogVisible = ref(false)
+const principleContactModifyDialogData = reactive({
+  officePhoneNo: '',
+  mobilePhoneNo: '',
+  emailAddress: ''
+})
+const principleContactModify = () => {
+  principleContactModifyDialogVisible.value = true
+  const keys = Object.keys(principleContactModifyDialogData)
+  keys.forEach(key => {
+    principleContactModifyDialogData[key] = data.principalContact[key]
+  })
+}
+const principleContactModifyConfirm = async () => {
+  principleContactModifyDialogVisible.value = false
+  const result = await modifyOrganizationPrincipleContact(data.id, principleContactModifyDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
+const organizationModifyDialogVisible = ref(false)
+const organizationModifyDialogData = reactive({
+  id: 1,
+  organizationName: '',
+  address: ''
+})
+const organizationModify = () => {
+  organizationModifyDialogVisible.value = true
+  const keys = Object.keys(organizationModifyDialogData)
+  keys.forEach(key => {
+    organizationModifyDialogData[key] = data[key]
+  })
+}
+const organizationModifyConfirm = async () => {
+  organizationModifyDialogVisible.value = false
+  const result = await modifyOrganizationDetailData(organizationModifyDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
 </script>
 
 <template>
@@ -67,6 +101,13 @@ onMounted(async () => {
         :column="1"
         class="margin-bottom"
         border>
+      <template #extra>
+        <el-button
+            type="primary"
+            @click="organizationModify">
+          修改
+        </el-button>
+      </template>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -106,6 +147,13 @@ onMounted(async () => {
         title="负责人"
         class="margin-bottom"
         border>
+      <template #extra>
+        <el-button
+            type="primary"
+            @click="principleContactModify">
+          修改
+        </el-button>
+      </template>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -148,6 +196,47 @@ onMounted(async () => {
         <el-table-column label="邮箱" prop="emailAddress"></el-table-column>
       </el-table>
     </div>
+    <el-dialog v-model="principleContactModifyDialogVisible">
+      <el-form label-width="100">
+        <el-form-item label="办公电话">
+          <el-input v-model="principleContactModifyDialogData.officePhoneNo"
+                    :maxlength="9"
+                    show-word-limit/>
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="principleContactModifyDialogData.mobilePhoneNo"
+                    :maxlength="11"
+                    show-word-limit
+          />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="principleContactModifyDialogData.emailAddress"
+                    :maxlength="64"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="principleContactModifyDialogVisible = false">取消</el-button>
+        <el-button type="success" @click="principleContactModifyConfirm">确定</el-button>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="organizationModifyDialogVisible">
+      <el-form label-width="100">
+        <el-form-item label="组织名称">
+          <el-input v-model="organizationModifyDialogData.organizationName"
+                    :maxlength="32"
+                    show-word-limit/>
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-input v-model="organizationModifyDialogData.address"
+                    :maxlength="128"
+                    show-word-limit/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="organizationModifyDialogVisible = false">取消</el-button>
+        <el-button type="success" @click="organizationModifyConfirm">确定</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 

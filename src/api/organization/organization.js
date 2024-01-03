@@ -11,3 +11,11 @@ export const listOrganization = (queryParam) => {
 export const listAllOrganizationName = () => {
     return request.get('/organization/listAll')
 }
+
+export const modifyOrganizationPrincipleContact = (orgId, contact) => {
+    return request.put(`/organization/update/principleContact/${orgId}`, contact)
+}
+
+export const modifyOrganizationDetailData = (organization) => {
+    return request.put('/organization/update/organization', organization)
+}

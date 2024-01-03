@@ -50,7 +50,7 @@ const modify = async (contact) => {
   const initialData = (await getContactDetail(contact.id)).data.data
   const updateKeys = Object.keys(initialData)
   updateKeys.forEach(key => {
-    if (dialogData[key] !== undefined){
+    if (dialogData[key] !== undefined) {
       dialogData[key] = initialData[key]
     }
   })
@@ -59,7 +59,7 @@ const modify = async (contact) => {
 const confirm = async () => {
   dataDialogVisible.value = false
   let result = null
-  if (idVisible.value){
+  if (idVisible.value) {
     result = await modifyContact(dialogData)
   } else {
     result = await insertContactByOrgId(dialogData, queryParam.organizationId)
@@ -132,13 +132,19 @@ const insert = async () => {
           <el-input v-model="dialogData.id" disabled/>
         </el-form-item>
         <el-form-item label="办公电话">
-          <el-input v-model="dialogData.officePhoneNo"/>
+          <el-input v-model="dialogData.officePhoneNo"
+                    :maxlength="9"
+                    show-word-limit/>
         </el-form-item>
         <el-form-item label="移动电话">
-          <el-input v-model="dialogData.mobilePhoneNo"/>
+          <el-input v-model="dialogData.mobilePhoneNo"
+                    :maxlength="11"
+                    show-word-limit/>
         </el-form-item>
         <el-form-item label="邮件地址">
-          <el-input v-model="dialogData.emailAddress"/>
+          <el-input v-model="dialogData.emailAddress"
+                    :maxlength="64"
+                    show-word-limit/>
         </el-form-item>
       </el-form>
       <template #footer>

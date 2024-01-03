@@ -18,6 +18,6 @@ export const loginAsAdmin = () => {
     saveUserInfo(info)
 }
 
-export const debugTarget = '/achievementManagement'
+export const debugTarget = '/organizationDetail/1'
 
 export default log
