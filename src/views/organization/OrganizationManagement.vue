@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {deleteOrganization, listOrganization} from "@/api/organization/organization";
+import {addOrganization, deleteOrganization, listOrganization} from "@/api/organization/organization";
 import log from "@/utils/debug";
 import {useRouter} from "vue-router";
 import {analysisResponse} from "@/utils/analysisResponse";
@@ -47,6 +47,29 @@ const removeConfirm = async () => {
   await query()
   removeWarningDialogVisible.value = false
 }
+
+const insertDialogVisible = ref(false)
+const insertDialogData = reactive({
+  organizationName: '',
+  address: '',
+  principalContact: {
+    officePhoneNo: '',
+    mobilePhoneNo: '',
+    emailAddress: ''
+  }
+})
+
+const insert = async () => {
+  insertDialogVisible.value = true
+}
+
+const insertConfirm = async () => {
+  const result = await addOrganization(insertDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+  insertDialogVisible.value = false
+}
 </script>
 
 <template>
@@ -60,6 +83,7 @@ const removeConfirm = async () => {
         </el-row>
         <div class="query">
           <el-button type="primary" @click="query">查询</el-button>
+          <el-button type="success" @click="insert">新增</el-button>
         </div>
       </el-row>
     </el-header>
@@ -92,6 +116,29 @@ const removeConfirm = async () => {
     <template #footer>
       <el-button @click="removeWarningDialogVisible = false">取消</el-button>
       <el-button type="danger" @click="removeConfirm">确定</el-button>
+    </template>
+  </el-dialog>
+  <el-dialog v-model="insertDialogVisible">
+    <el-form label-width="150px">
+      <el-form-item label="组织名">
+        <el-input v-model="insertDialogData.organizationName"/>
+      </el-form-item>
+      <el-form-item label="地址">
+        <el-input v-model="insertDialogData.address"/>
+      </el-form-item>
+      <el-form-item label="组织负责人办公电话">
+        <el-input v-model="insertDialogData.principalContact.officePhoneNo"/>
+      </el-form-item>
+      <el-form-item label="组织负责人手机号">
+        <el-input v-model="insertDialogData.principalContact.mobilePhoneNo"/>
+      </el-form-item>
+      <el-form-item label="组织负责人邮箱">
+        <el-input v-model="insertDialogData.principalContact.emailAddress"/>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <el-button @click="insertDialogVisible = false">取消</el-button>
+      <el-button type="success" @click="insertConfirm">确定</el-button>
     </template>
   </el-dialog>
 </div>
