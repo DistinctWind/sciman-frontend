@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import {getAchievementList} from "@/api/achievement/achievement";
+import {getAchievementDetail, getAchievementList, modifyAchievement} from "@/api/achievement/achievement";
 import ProjectSelection from "@/components/select/ProjectSelection.vue";
+import {analysisResponse} from "@/utils/analysisResponse";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -28,6 +29,32 @@ onMounted(async () => {
 watch(() => queryParam.projectId, async () => {
   await query()
 })
+
+const modifyDialogVisible = ref(false)
+const modifyDialogData = reactive({
+  id: 0,
+  name: '',
+  achieveDate: '',
+  rankingFactor: 0,
+  classification: 0,
+})
+const modify = async (achievement) => {
+  modifyDialogVisible.value = true
+  const result = await getAchievementDetail(achievement.id)
+  const response = result.data
+  const keys = Object.keys(modifyDialogData)
+  keys.forEach(key => {
+    modifyDialogData[key] = response.data[key]
+  })
+}
+
+const modifyDialogConfirm = async () => {
+  modifyDialogVisible.value = false
+  const result = await modifyAchievement(modifyDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
 
 </script>
 
@@ -84,6 +111,34 @@ watch(() => queryParam.projectId, async () => {
         />
       </el-main>
     </el-container>
+    <el-dialog v-model="modifyDialogVisible">
+      <el-form>
+        <el-form-item label="成果名">
+          <el-input v-model="modifyDialogData.name"/>
+        </el-form-item>
+        <el-form-item label="达成时间">
+          <el-date-picker v-model="modifyDialogData.achieveDate"
+                          value-format="YYYY-MM-DD"
+                          type="date" placeholder="选择日期"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="排名">
+          <el-input-number v-model="modifyDialogData.rankingFactor" :min="0" :max="1" :step="0.01"/>
+        </el-form-item>
+        <el-form-item label="分类">
+          <el-radio-group v-model="modifyDialogData.classification">
+            <el-radio :label="1">发明专利</el-radio>
+            <el-radio :label="2">实用新型专利</el-radio>
+            <el-radio :label="3">外观专利</el-radio>
+            <el-radio :label="4">论文</el-radio>
+            <el-radio :label="5">软件著作权</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="modifyDialogVisible = false">取消</el-button>
+        <el-button type="success" @click="modifyDialogConfirm">确定</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
