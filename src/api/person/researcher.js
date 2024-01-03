@@ -1,11 +1,7 @@
 import request from "@/utils/request";
 
-export const listAllResearcher = (labId) => {
-    return request.get('/person/researcher/listAll', {
-        params: {
-            laboratoryId: labId
-        }
-    })
+export const listAllResearcher = (listParam) => {
+    return request.post('/person/researcher/listAll', listParam)
 }
 
 export const listResearcher = (queryParam) => {
