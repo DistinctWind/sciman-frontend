@@ -7,3 +7,11 @@ export const getAchievementList = (queryParam) => {
 export const listAllAchievement = () => {
     return request.get('/achievement/listAll')
 }
+
+export const getAchievementDetail = (id) => {
+    return request.get(`/achievement/detail/${id}`)
+}
+
+export const modifyAchievement = (achievement) => {
+    return request.post('/achievement/update', achievement)
+}
