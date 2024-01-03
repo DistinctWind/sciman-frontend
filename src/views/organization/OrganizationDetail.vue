@@ -1,7 +1,11 @@
 <script setup>
 import {useRoute} from "vue-router";
 import {computed, onMounted, reactive, ref} from "vue";
-import {getOrganizationViewById, modifyOrganizationPrincipleContact} from "@/api/organization/organization";
+import {
+  getOrganizationViewById,
+  modifyOrganizationDetailData,
+  modifyOrganizationPrincipleContact
+} from "@/api/organization/organization";
 import {iconStyle} from "@/components/iconStyle";
 import {Aim, Avatar, Cellphone, ChatDotRound, Grid} from "@element-plus/icons-vue";
 import {analysisResponse} from "@/utils/analysisResponse";
@@ -61,6 +65,28 @@ const principleContactModifyConfirm = async () => {
   analysisResponse(response)
   await query()
 }
+
+const organizationModifyDialogVisible = ref(false)
+const organizationModifyDialogData = reactive({
+  id: 1,
+  organizationName: '',
+  address: ''
+})
+const organizationModify = () => {
+  organizationModifyDialogVisible.value = true
+  const keys = Object.keys(organizationModifyDialogData)
+  keys.forEach(key => {
+    organizationModifyDialogData[key] = data[key]
+  })
+}
+const organizationModifyConfirm = async () => {
+  organizationModifyDialogVisible.value = false
+  const result = await modifyOrganizationDetailData(organizationModifyDialogData)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
+
 </script>
 
 <template>
@@ -75,6 +101,13 @@ const principleContactModifyConfirm = async () => {
         :column="1"
         class="margin-bottom"
         border>
+      <template #extra>
+        <el-button
+            type="primary"
+            @click="organizationModify">
+          修改
+        </el-button>
+      </template>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -184,6 +217,24 @@ const principleContactModifyConfirm = async () => {
       <template #footer>
         <el-button type="primary" @click="principleContactModifyDialogVisible = false">取消</el-button>
         <el-button type="success" @click="principleContactModifyConfirm">确定</el-button>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="organizationModifyDialogVisible">
+      <el-form label-width="100">
+        <el-form-item label="组织名称">
+          <el-input v-model="organizationModifyDialogData.organizationName"
+                    :maxlength="32"
+                    show-word-limit/>
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-input v-model="organizationModifyDialogData.address"
+                    :maxlength="128"
+                    show-word-limit/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="organizationModifyDialogVisible = false">取消</el-button>
+        <el-button type="success" @click="organizationModifyConfirm">确定</el-button>
       </template>
     </el-dialog>
   </div>

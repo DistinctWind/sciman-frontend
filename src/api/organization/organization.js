@@ -15,3 +15,7 @@ export const listAllOrganizationName = () => {
 export const modifyOrganizationPrincipleContact = (orgId, contact) => {
     return request.put(`/organization/update/principleContact/${orgId}`, contact)
 }
+
+export const modifyOrganizationDetailData = (organization) => {
+    return request.put('/organization/update/organization', organization)
+}
