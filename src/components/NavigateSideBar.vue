@@ -1,9 +1,9 @@
 <script setup>
 import {
-  ColdDrink,
+  ColdDrink, Crop,
   Grid, HotWater,
   House, InfoFilled,
-  Menu as IconMenu, OfficeBuilding, Search, User, UserFilled, View,
+  Menu as IconMenu, OfficeBuilding, Operation, PieChart, Search, User, UserFilled, View,
 } from '@element-plus/icons-vue'
 import {useStore} from "vuex";
 import {computed} from "vue";
@@ -20,7 +20,7 @@ const isAdmin = computed(() => role.value === 'admin')
       <el-menu
           default-active="1"
       >
-        <el-menu-item index="1" @click="$router.push('/home')" v-if="isAdmin">
+        <el-menu-item index="1" @click="$router.push('/home')">
           <el-icon>
             <House/>
           </el-icon>
@@ -64,15 +64,15 @@ const isAdmin = computed(() => role.value === 'admin')
             <span>项目详情</span>
           </el-menu-item>
           <el-menu-item index="5-2" @click="notImplemented">
-            <el-icon><ColdDrink /></el-icon>
+            <el-icon><Operation /></el-icon>
             <span>子项目管理</span>
           </el-menu-item>
           <el-menu-item index="5-3" @click="notImplemented">
-            <el-icon><ColdDrink /></el-icon>
+            <el-icon><Crop /></el-icon>
             <span>项目参与人员</span>
           </el-menu-item>
           <el-menu-item index="5-4" @click="notImplemented">
-            <el-icon><ColdDrink /></el-icon>
+            <el-icon><PieChart /></el-icon>
             <span>项目合作方管理</span>
           </el-menu-item>
         </el-sub-menu>
