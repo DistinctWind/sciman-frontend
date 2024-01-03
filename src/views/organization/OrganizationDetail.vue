@@ -166,13 +166,19 @@ const principleContactModifyConfirm = async () => {
     <el-dialog v-model="principleContactModifyDialogVisible">
       <el-form label-width="100">
         <el-form-item label="办公电话">
-          <el-input v-model="principleContactModifyDialogData.officePhoneNo"/>
+          <el-input v-model="principleContactModifyDialogData.officePhoneNo"
+                    :maxlength="9"
+                    show-word-limit/>
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="principleContactModifyDialogData.mobilePhoneNo"/>
+          <el-input v-model="principleContactModifyDialogData.mobilePhoneNo"
+                    :maxlength="11"
+                    show-word-limit
+          />
         </el-form-item>
         <el-form-item label="邮箱">
-          <el-input v-model="principleContactModifyDialogData.emailAddress"/>
+          <el-input v-model="principleContactModifyDialogData.emailAddress"
+                    :maxlength="64"/>
         </el-form-item>
       </el-form>
       <template #footer>
