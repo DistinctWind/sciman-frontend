@@ -1,7 +1,12 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import log from "@/utils/debug";
-import {getAchievementDetail, getAchievementList, modifyAchievement} from "@/api/achievement/achievement";
+import {
+  deleteAchievement,
+  getAchievementDetail,
+  getAchievementList,
+  modifyAchievement
+} from "@/api/achievement/achievement";
 import ProjectSelection from "@/components/select/ProjectSelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 
@@ -56,6 +61,12 @@ const modifyDialogConfirm = async () => {
   await query()
 }
 
+const del = async (achievement) => {
+  const result = await deleteAchievement(achievement.id)
+  const response = result.data
+  analysisResponse(response)
+  await query()
+}
 </script>
 
 <template>

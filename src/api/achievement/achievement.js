@@ -15,3 +15,7 @@ export const getAchievementDetail = (id) => {
 export const modifyAchievement = (achievement) => {
     return request.post('/achievement/update', achievement)
 }
+
+export const deleteAchievement = (id) => {
+    return request.delete(`/achievement/delete/${id}`)
+}
