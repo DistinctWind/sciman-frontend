@@ -5,6 +5,12 @@ import {
   House, InfoFilled,
   Menu as IconMenu, OfficeBuilding, Search, User, UserFilled, View,
 } from '@element-plus/icons-vue'
+import {useStore} from "vuex";
+import {computed} from "vue";
+
+const store = useStore()
+const role = computed(() => store.state.role)
+const isAdmin = computed(() => role.value === 'admin')
 </script>
 
 <template>
@@ -13,19 +19,19 @@ import {
       <el-menu
           default-active="1"
       >
-        <el-menu-item index="1" @click="$router.push('/home')">
+        <el-menu-item index="1" @click="$router.push('/home')" v-if="isAdmin">
           <el-icon>
             <House/>
           </el-icon>
           <span>仪表盘</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="$router.push('/laboratoryManagement')">
+        <el-menu-item index="2" @click="$router.push('/laboratoryManagement')" v-if="isAdmin">
           <el-icon>
             <IconMenu/>
           </el-icon>
           <span>实验室管理</span>
         </el-menu-item>
-        <el-sub-menu index="3">
+        <el-sub-menu index="3" v-if="isAdmin">
           <template #title>
             <el-icon><UserFilled /></el-icon>
             <span>人事管理</span>
@@ -43,7 +49,7 @@ import {
             <span>主任管理</span>
           </el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="4" @click="$router.push('/venueManagement')">
+        <el-menu-item index="4" @click="$router.push('/venueManagement')" v-if="isAdmin">
           <el-icon><House /></el-icon>
           <span>场地管理</span>
         </el-menu-item>
