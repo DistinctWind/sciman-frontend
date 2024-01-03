@@ -6,6 +6,8 @@ import {listAllAchievement} from "@/api/achievement/achievement";
 const props = defineProps(['modelValue', 'nullable'])
 const emit = defineEmits(['update:modelValue'])
 
+const nullable = computed(() => props.nullable === undefined ? true : props.nullable)
+
 const selectedOption = ref(1)
 const options = ref([])
 
@@ -18,6 +20,9 @@ const fetchOptions = async () => {
 onMounted(async () => {
   await fetchOptions()
   selectedOption.value = props.modelValue
+  if (!nullable.value && options.value.length > 0) {
+    selectedOption.value = options.value[0].id
+  }
 })
 
 watch(() => props.modelValue, (newVal) => {
@@ -28,8 +33,6 @@ const handleSelect = () => {
   emit('update:modelValue', selectedOption.value)
   log(`selected option: ${selectedOption.value}`)
 }
-
-const nullable = computed(() => props.nullable === undefined ? true : props.nullable)
 
 </script>
 

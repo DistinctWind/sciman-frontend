@@ -20,6 +20,9 @@ onMounted(async () => {
   selectedOption.value = props.modelValue
   labId.value = props.labId
   await fetchOptions()
+  if (options.value.length > 0) {
+    selectedOption.value = options.value[0].employeeId
+  }
 })
 
 watch(()=>props.modelValue, (newVal) => {

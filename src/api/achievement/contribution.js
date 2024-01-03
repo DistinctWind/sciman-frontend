@@ -7,3 +7,7 @@ export const listContribution = (queryParam) => {
 export const deleteContribution = (id) => {
     return request.delete('/contribution/delete/' + id)
 }
+
+export const addContribution = (contribution) => {
+    return request.put('/contribution/add', contribution)
+}

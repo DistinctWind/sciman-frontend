@@ -1,9 +1,10 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
-import {deleteContribution, listContribution} from "@/api/achievement/contribution";
+import {addContribution, deleteContribution, listContribution} from "@/api/achievement/contribution";
 import log from "@/utils/debug";
 import AchievementSelection from "@/components/select/AchievementSelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
+import ResearcherSelection from "@/components/select/ResearcherSelection.vue";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -33,6 +34,23 @@ const del = async (contribution) => {
   const result = await deleteContribution(contribution.id)
   const response = result.data
   analysisResponse(response)
+  await query()
+}
+
+const insertDialogVisible = ref(false)
+const insertAchievementId = ref(0)
+const insertResearcherId = ref(0)
+const insert = () => {
+  insertDialogVisible.value = true
+  insertAchievementId.value = queryParam.achievementId
+}
+
+const insertConfirm = async () => {
+  await addContribution({
+    achievementId: insertAchievementId.value,
+    researcherId: insertResearcherId.value
+  })
+  insertDialogVisible.value = false
   await query()
 }
 </script>
@@ -74,6 +92,20 @@ const del = async (contribution) => {
         />
       </el-main>
     </el-container>
+    <el-dialog v-model="insertDialogVisible">
+      <el-form label-width="100">
+        <el-form-item label="成果">
+          <AchievementSelection v-model="insertAchievementId" :nullable="false"/>
+        </el-form-item>
+        <el-form-item label="参与人员">
+          <ResearcherSelection v-model="insertResearcherId"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="insertDialogVisible = false">取消</el-button>
+        <el-button type="success" @click="insertConfirm">确定</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
