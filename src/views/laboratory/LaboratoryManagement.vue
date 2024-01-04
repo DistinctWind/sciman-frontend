@@ -6,6 +6,7 @@ import {getSecretaryIdOfLabId} from "@/api/person/secretary";
 import SecretarySelection from "@/components/select/SecretarySelection.vue";
 import {analysisResponse} from "@/utils/analysisResponse";
 import OrientationDialog from "@/components/laboratory/OrientationDialog.vue";
+import {notImplemented} from "@/utils/implementattion";
 
 const tableData = ref([])
 const tableTotal = ref(10)
@@ -84,7 +85,7 @@ const deleteLabOf = (lab) => {
           </el-row>
           <div class="query">
             <el-button type="primary" @click="query">查询</el-button>
-            <el-button type="success" @click="insert">新增</el-button>
+            <el-button type="success" @click="notImplemented">新增</el-button>
           </div>
         </el-row>
       </el-header>

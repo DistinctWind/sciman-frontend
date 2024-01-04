@@ -76,44 +76,6 @@ const showDetailOf = (project) => {
         />
       </el-main>
     </el-container>
-    <el-dialog v-model="dataDialogVisible">
-      <el-form :model="dialogData">
-        <el-form-item label="工号" v-if="employeeIdVisible">
-          <el-input v-model="dialogData.employeeId" disabled/>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="dialogData.name"/>
-        </el-form-item>
-        <el-form-item label="性别">
-          <el-radio-group v-model="dialogData.gender">
-            <el-radio :label="1">男</el-radio>
-            <el-radio :label="2">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="年龄">
-          <el-input v-model="dialogData.age" oninput="value=value.replace(/\D/g, '')"/>
-        </el-form-item>
-        <el-form-item label="聘用时间">
-          <el-date-picker
-              v-model="dialogData.employDate"
-              type="date"
-              placeholder="Pick a day"
-              value-format="YYYY-MM-DD"
-          />
-        </el-form-item>
-        <el-form-item label="职务">
-          <el-input v-model="dialogData.duty"/>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dataDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="confirm">
-          确认
-        </el-button>
-      </span>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
